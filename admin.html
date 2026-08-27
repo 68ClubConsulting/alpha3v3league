@@ -8,35 +8,24 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --gold: #B8922A;
-    --black: #1A1A1A;
-    --surface: #FFFFFF;
-    --surface2: #F5F5F5;
-    --border: #E0E0E0;
-    --text: #1A1A1A;
-    --text-muted: #777777;
-    --boys: #2563EB;
-    --girls: #C026A0;
-    --green: #16A34A;
-    --red: #DC2626;
-    --yellow: #CA8A04;
-    --bg: #F0F2F5;
+    --gold: #B8922A; --black: #1A1A1A; --surface: #FFFFFF;
+    --surface2: #F5F5F5; --border: #E0E0E0; --text: #1A1A1A;
+    --text-muted: #777777; --boys: #2563EB; --girls: #C026A0;
+    --green: #16A34A; --red: #DC2626; --yellow: #CA8A04; --bg: #F0F2F5;
   }
   body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased; min-height: 100vh; }
 
-  /* LOGIN */
   .login-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
   .login-box { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 48px 40px; max-width: 340px; width: 100%; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
   .login-title { font-family: 'Oswald', sans-serif; font-size: 26px; font-weight: 700; color: var(--gold); margin-bottom: 4px; }
   .login-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
-  .login-input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'Inter', sans-serif; font-size: 15px; padding: 11px 14px; outline: none; margin-bottom: 10px; }
+  .login-input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 15px; padding: 11px 14px; outline: none; margin-bottom: 10px; font-family: 'Inter', sans-serif; }
   .login-input:focus { border-color: var(--gold); }
   .login-btn { width: 100%; font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: white; background: var(--gold); border: none; padding: 12px; border-radius: 6px; cursor: pointer; }
   .login-btn:hover { background: #9a7822; }
   .login-error { color: var(--red); font-size: 13px; margin-top: 8px; display: none; }
 
-  /* ADMIN */
-  .admin-screen { display: none; max-width: 1080px; margin: 0 auto; padding: 24px 20px 80px; }
+  .admin-screen { display: none; max-width: 1100px; margin: 0 auto; padding: 24px 20px 80px; }
   .admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
   .admin-logo { font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700; color: var(--gold); }
   .admin-logo span { color: var(--text-muted); font-weight: 400; font-size: 13px; margin-left: 8px; }
@@ -45,118 +34,141 @@
   .refresh-btn:hover { border-color: var(--gold); color: var(--gold); }
   .last-updated { font-size: 12px; color: var(--text-muted); }
 
-  /* NAV TABS */
-  .nav-tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 2px solid var(--border); }
-  .nav-tab { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; padding: 8px 18px; border: none; background: transparent; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.15s; }
+  .nav-tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 2px solid var(--border); }
+  .nav-tab { font-size: 13px; font-weight: 600; padding: 9px 20px; border: none; background: transparent; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.15s; }
   .nav-tab:hover { color: var(--gold); }
   .nav-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
 
-  /* WEEK TABS */
   .week-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
   .week-tab { font-size: 13px; font-weight: 500; padding: 7px 16px; border-radius: 6px; border: 1px solid var(--border); background: white; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
   .week-tab:hover { border-color: var(--gold); color: var(--gold); }
   .week-tab.active { background: var(--gold); border-color: var(--gold); color: white; }
 
-  .loading { text-align: center; padding: 60px 24px; color: var(--text-muted); font-size: 15px; }
+  .loading { text-align: center; padding: 60px; color: var(--text-muted); font-size: 15px; }
   .error-msg { background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; padding: 14px 18px; color: var(--red); font-size: 13px; margin-bottom: 20px; }
 
   .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; margin-bottom: 20px; }
   .stat-card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
   .stat-label { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; font-weight: 500; }
-  .stat-num { font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 700; color: var(--text); line-height: 1; }
-  .stat-num.green { color: var(--green); }
-  .stat-num.red { color: var(--red); }
-  .stat-num.yellow { color: var(--yellow); }
-  .stat-num.blue { color: var(--boys); }
-  .stat-num.pink { color: var(--girls); }
+  .stat-num { font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 700; line-height: 1; }
+  .stat-num.green { color: var(--green); } .stat-num.red { color: var(--red); }
+  .stat-num.yellow { color: var(--yellow); } .stat-num.blue { color: var(--boys); }
+  .stat-num.pink { color: var(--girls); } .stat-num.gold { color: var(--gold); }
 
   .section-block { margin-bottom: 24px; }
   .section-heading { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
   .section-heading .count { background: var(--surface2); color: var(--text-muted); padding: 1px 7px; border-radius: 10px; font-size: 11px; }
 
-  .division-block { margin-bottom: 12px; }
+  .division-block { margin-bottom: 14px; }
   .division-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; margin-bottom: 4px; display: inline-block; }
   .division-label.boys { background: #DBEAFE; color: var(--boys); }
   .division-label.girls { background: #FCE7F3; color: var(--girls); }
   .age-label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); padding: 4px 10px; margin-top: 4px; }
 
-  /* TEAM ROW — fixed 4-col grid */
-  .team-row {
-    display: grid;
-    grid-template-columns: 200px 140px 130px 1fr;
-    gap: 0;
-    align-items: center;
-    padding: 9px 12px;
-    background: white;
-    border: 1px solid var(--border);
-    border-left: 4px solid transparent;
-    margin-bottom: 2px;
-    border-radius: 0 4px 4px 0;
-  }
+  .team-row { display: grid; grid-template-columns: 210px 150px 140px 1fr; gap: 0; align-items: center; padding: 9px 12px; background: white; border: 1px solid var(--border); border-left: 4px solid transparent; margin-bottom: 2px; border-radius: 0 4px 4px 0; }
   .team-row.boys-row { border-left-color: var(--boys); }
   .team-row.girls-row { border-left-color: var(--girls); }
-  .team-row.unpaid { border-left-color: var(--red); background: #fef9f9; }
+  .team-row.failed { border-left-color: var(--red); background: #fff8f8; }
   .team-row.reach { border-left-color: var(--yellow); background: #fefdf0; }
-
-  .team-name { font-weight: 600; font-size: 14px; color: var(--text); padding-right: 12px; }
+  .team-name { font-weight: 600; font-size: 14px; padding-right: 12px; }
   .team-contact { font-size: 13px; color: var(--text-muted); padding-right: 12px; }
   .team-phone { font-size: 13px; color: var(--text-muted); font-family: 'Inter', sans-serif; padding-right: 12px; }
-  .team-notes { font-size: 12px; color: var(--text-muted); display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
+  .team-notes { font-size: 12px; display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
 
   .badge { font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; display: inline-block; white-space: nowrap; }
-  .badge.paid { background: #DCFCE7; color: var(--green); }
-  .badge.unpaid { background: #FEE2E2; color: var(--red); }
-  .badge.reach { background: #FEF9C3; color: var(--yellow); }
-  .badge.door { background: #F3F4F6; color: #6B7280; }
   .badge.full { background: #FEF3C7; color: var(--gold); }
   .badge.weekly { background: #F3F4F6; color: #6B7280; }
-  .badge.note-red { background: #FEE2E2; color: var(--red); max-width: 180px; overflow: hidden; text-overflow: ellipsis; }
-
+  .badge.door { background: #F3F4F6; color: #6B7280; }
+  .badge.failed { background: #FEE2E2; color: var(--red); }
+  .badge.reach { background: #FEF9C3; color: var(--yellow); }
+  .badge.note { background: #EFF6FF; color: var(--boys); max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
   .empty-state { padding: 16px 12px; font-size: 13px; color: var(--text-muted); font-style: italic; }
 
   /* SCHEDULER */
-  .scheduler { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 24px; }
-  .scheduler-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .sched-panel { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 24px; margin-bottom: 20px; }
+  .sched-panel-title { font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+
+  .ctrl-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 0; }
   .ctrl-group { display: flex; flex-direction: column; gap: 4px; }
   .ctrl-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); }
-  .ctrl-input { border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px; font-size: 13px; font-family: 'Inter', sans-serif; outline: none; }
-  .ctrl-input:focus { border-color: var(--gold); }
+  .ctrl-input, .ctrl-select { border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px; font-size: 13px; font-family: 'Inter', sans-serif; outline: none; background: white; color: var(--text); }
+  .ctrl-input:focus, .ctrl-select:focus { border-color: var(--gold); }
 
-  .exclusion-area { margin-bottom: 20px; }
-  .exclusion-label { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.06em; }
-  .exclusion-list { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
-  .exclusion-tag { background: #FEE2E2; color: var(--red); border-radius: 4px; padding: 3px 8px; font-size: 12px; display: flex; align-items: center; gap: 6px; }
-  .exclusion-tag button { background: none; border: none; color: var(--red); cursor: pointer; font-size: 14px; line-height: 1; padding: 0; }
-  .exclusion-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-  .excl-select { border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; font-size: 13px; font-family: 'Inter', sans-serif; outline: none; flex: 1; min-width: 140px; }
-  .excl-select:focus { border-color: var(--gold); }
-  .excl-btn { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 7px 12px; font-size: 13px; cursor: pointer; white-space: nowrap; }
-  .excl-btn:hover { border-color: var(--gold); }
+  .pair-area { margin-top: 0; }
+  .pair-list { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; min-height: 28px; }
+  .pair-tag { display: flex; align-items: center; gap: 6px; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 500; }
+  .pair-tag.sit-out { background: #FEE2E2; color: var(--red); }
+  .pair-tag.no-match { background: #FEF9C3; color: var(--yellow); }
+  .pair-tag.req-match { background: #DBEAFE; color: var(--boys); }
+  .pair-tag.same-court { background: #F0FDF4; color: var(--green); }
+  .pair-tag.same-time { background: #FAF5FF; color: #7C3AED; }
+  .pair-tag button { background: none; border: none; cursor: pointer; font-size: 14px; line-height: 1; padding: 0; color: inherit; opacity: 0.7; }
+  .pair-tag button:hover { opacity: 1; }
 
-  .sched-btn { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: white; background: var(--gold); border: none; padding: 11px 28px; border-radius: 6px; cursor: pointer; margin-bottom: 24px; }
-  .sched-btn:hover { background: #9a7822; }
+  .pair-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .pair-select { border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; font-size: 13px; font-family: 'Inter', sans-serif; outline: none; flex: 1; min-width: 130px; background: white; }
+  .pair-select:focus { border-color: var(--gold); }
+  .add-btn { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 7px 14px; font-size: 13px; cursor: pointer; white-space: nowrap; font-family: 'Inter', sans-serif; }
+  .add-btn:hover { border-color: var(--gold); color: var(--gold); }
 
-  .schedule-output { display: none; }
-  .court-block { margin-bottom: 20px; }
-  .court-title { font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 8px; padding-bottom: 6px; border-bottom: 2px solid var(--border); }
-  .game-row { display: grid; grid-template-columns: 80px 1fr; gap: 10px; align-items: center; padding: 8px 12px; background: var(--surface2); border-radius: 4px; margin-bottom: 4px; border-left: 3px solid var(--gold); }
-  .game-time { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; color: var(--gold); }
+  .gen-btn { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: white; background: var(--gold); border: none; padding: 12px 32px; border-radius: 6px; cursor: pointer; }
+  .gen-btn:hover { background: #9a7822; }
+
+  /* SCHEDULE OUTPUT */
+  .sched-output { display: none; }
+  .sched-warning { background: #FEF9C3; border: 1px solid #FDE68A; border-radius: 6px; padding: 10px 14px; font-size: 12px; color: var(--yellow); margin-bottom: 12px; line-height: 1.6; }
+
+  .view-tabs { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+  .view-tab { font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 6px; border: 1px solid var(--border); background: white; color: var(--text-muted); cursor: pointer; }
+  .view-tab.active { background: var(--black); border-color: var(--black); color: white; }
+
+  .sched-view { display: none; }
+  .sched-view.active { display: block; }
+
+  /* BY COURT */
+  .court-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .court-block { background: white; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .court-header { background: var(--black); color: white; font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.08em; padding: 10px 14px; }
+  .game-row { display: grid; grid-template-columns: 72px 1fr; gap: 8px; align-items: center; padding: 8px 14px; border-bottom: 1px solid var(--border); }
+  .game-row:last-child { border-bottom: none; }
+  .game-time { font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; color: var(--gold); }
   .game-matchup { font-size: 13px; font-weight: 500; }
-  .game-matchup .vs { color: var(--text-muted); margin: 0 6px; font-weight: 400; }
-  .sched-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
-  .print-btn { font-size: 12px; padding: 6px 14px; border-radius: 6px; border: 1px solid var(--border); background: white; color: var(--text-muted); cursor: pointer; margin-bottom: 16px; }
+  .game-matchup .vs { color: var(--text-muted); margin: 0 5px; font-weight: 400; font-size: 12px; }
+
+  /* BY TIME */
+  .time-block { background: white; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; overflow: hidden; }
+  .time-header { background: var(--gold); color: white; font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 700; padding: 8px 14px; display: flex; align-items: center; gap: 12px; }
+  .time-courts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0; }
+  .time-court-cell { padding: 10px 14px; border-right: 1px solid var(--border); }
+  .time-court-cell:last-child { border-right: none; }
+  .time-court-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
+  .time-game { font-size: 13px; font-weight: 500; }
+  .time-game .vs { color: var(--text-muted); margin: 0 4px; font-size: 12px; }
+
+  /* BY TEAM */
+  .team-sched-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+  .team-sched-card { background: white; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .team-sched-header { padding: 8px 12px; font-weight: 600; font-size: 13px; border-bottom: 1px solid var(--border); }
+  .team-sched-header.boys-h { background: #DBEAFE; color: var(--boys); }
+  .team-sched-header.girls-h { background: #FCE7F3; color: var(--girls); }
+  .team-game-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 12px; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .team-game-row:last-child { border-bottom: none; }
+  .tg-time { font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600; color: var(--gold); min-width: 60px; }
+  .tg-opp { color: var(--text-muted); font-size: 12px; }
+  .tg-court { font-size: 11px; background: var(--surface2); padding: 2px 6px; border-radius: 3px; color: var(--text-muted); }
+
+  .print-btn { font-size: 12px; padding: 6px 14px; border-radius: 6px; border: 1px solid var(--border); background: white; color: var(--text-muted); cursor: pointer; margin-bottom: 12px; }
   .print-btn:hover { border-color: var(--gold); color: var(--gold); }
-  .sched-warning { background: #FEF9C3; border: 1px solid #FDE68A; border-radius: 6px; padding: 10px 14px; font-size: 12px; color: var(--yellow); margin-bottom: 12px; }
 
   @media (max-width: 700px) {
     .team-row { grid-template-columns: 1fr auto; }
     .team-contact, .team-phone { display: none; }
-    .sched-grid { grid-template-columns: 1fr; }
   }
   @media print {
-    .nav-tabs, .week-tabs, .stats-row, .section-heading, .refresh-btn, .sched-btn, .print-btn, .scheduler-controls, .exclusion-area { display: none !important; }
+    .nav-tabs, .week-tabs, .stats-row, .refresh-btn, .sched-panel, .view-tabs, .print-btn, .gen-btn { display: none !important; }
     body { background: white; }
-    .schedule-output { display: block !important; }
+    .sched-output { display: block !important; }
+    .sched-view { display: block !important; }
   }
 </style>
 </head>
@@ -182,65 +194,103 @@
   </div>
 
   <div class="nav-tabs">
-    <button class="nav-tab active" onclick="showTab('registrations', this)">Registrations</button>
-    <button class="nav-tab" onclick="showTab('scheduler', this)">Schedule Builder</button>
+    <button class="nav-tab active" onclick="showTab('registrations',this)">Registrations</button>
+    <button class="nav-tab" onclick="showTab('scheduler',this)">Schedule Builder</button>
   </div>
 
-  <!-- REGISTRATIONS TAB -->
   <div id="tab-registrations">
     <div class="week-tabs" id="weekTabs"></div>
-    <div id="mainContent"><div class="loading">Loading registrations...</div></div>
+    <div id="mainContent"><div class="loading">Loading...</div></div>
   </div>
 
-  <!-- SCHEDULER TAB -->
   <div id="tab-scheduler" style="display:none">
-    <div class="scheduler">
-      <div class="scheduler-controls">
-        <div class="ctrl-group">
-          <div class="ctrl-label">Start time</div>
-          <input type="time" class="ctrl-input" id="startTime" value="14:00">
-        </div>
-        <div class="ctrl-group">
-          <div class="ctrl-label">Slot length (min)</div>
-          <input type="number" class="ctrl-input" id="slotLen" value="15" min="10" max="30">
-        </div>
-        <div class="ctrl-group">
-          <div class="ctrl-label">Courts available</div>
-          <input type="number" class="ctrl-input" id="numCourts" value="4" min="1" max="6">
-        </div>
-        <div class="ctrl-group">
-          <div class="ctrl-label">Games per team</div>
-          <input type="number" class="ctrl-input" id="gamesPerTeam" value="3" min="1" max="5">
+
+    <!-- SETTINGS -->
+    <div class="sched-panel">
+      <div class="sched-panel-title">Game Settings</div>
+      <div class="ctrl-grid">
+        <div class="ctrl-group"><div class="ctrl-label">Start Time</div><input type="time" class="ctrl-input" id="startTime" value="14:00"></div>
+        <div class="ctrl-group"><div class="ctrl-label">End Time</div><input type="time" class="ctrl-input" id="endTime" value="18:00"></div>
+        <div class="ctrl-group"><div class="ctrl-label">Slot Length (min)</div><input type="number" class="ctrl-input" id="slotLen" value="15" min="10" max="30"></div>
+        <div class="ctrl-group"><div class="ctrl-label">Courts</div><input type="number" class="ctrl-input" id="numCourts" value="4" min="1" max="8"></div>
+        <div class="ctrl-group"><div class="ctrl-label">Games Per Team</div><input type="number" class="ctrl-input" id="gamesPerTeam" value="3" min="1" max="5"></div>
+        <div class="ctrl-group"><div class="ctrl-label">Min Rest (slots)</div><input type="number" class="ctrl-input" id="minRest" value="1" min="1" max="4"></div>
+      </div>
+    </div>
+
+    <!-- TEAMS SITTING OUT -->
+    <div class="sched-panel">
+      <div class="sched-panel-title">Teams Sitting Out This Week</div>
+      <div class="pair-list" id="sitOutList"></div>
+      <div class="pair-row">
+        <select class="pair-select" id="sitOutSelect"><option value="">Select team...</option></select>
+        <button class="add-btn" onclick="addSitOut()">+ Add</button>
+      </div>
+    </div>
+
+    <!-- CONSTRAINTS -->
+    <div class="sched-panel">
+      <div class="sched-panel-title">Matchup Rules</div>
+
+      <div class="pair-area" style="margin-bottom:16px">
+        <div class="ctrl-label" style="margin-bottom:6px">Required matchups (must play each other)</div>
+        <div class="pair-list" id="reqMatchList"></div>
+        <div class="pair-row">
+          <select class="pair-select" id="reqA"><option value="">Team A...</option></select>
+          <span style="font-size:12px;color:var(--text-muted)">vs</span>
+          <select class="pair-select" id="reqB"><option value="">Team B...</option></select>
+          <button class="add-btn" onclick="addReqMatch()">+ Add</button>
         </div>
       </div>
 
-      <div class="exclusion-area">
-        <div class="exclusion-label">Teams sitting out this week</div>
-        <div class="exclusion-list" id="exclusionList"></div>
-        <div class="exclusion-row">
-          <select class="excl-select" id="exclusionSelect"><option value="">Select team to sit out...</option></select>
-          <button class="excl-btn" onclick="addExclusion()">+ Add</button>
+      <div class="pair-area" style="margin-bottom:16px">
+        <div class="ctrl-label" style="margin-bottom:6px">Do not play each other</div>
+        <div class="pair-list" id="noMatchList"></div>
+        <div class="pair-row">
+          <select class="pair-select" id="noA"><option value="">Team A...</option></select>
+          <span style="font-size:12px;color:var(--text-muted)">vs</span>
+          <select class="pair-select" id="noB"><option value="">Team B...</option></select>
+          <button class="add-btn" onclick="addNoMatch()">+ Add</button>
         </div>
       </div>
 
-      <div class="exclusion-area">
-        <div class="exclusion-label">Required matchups (override)</div>
-        <div class="exclusion-list" id="matchupList"></div>
-        <div class="exclusion-row">
-          <select class="excl-select" id="matchupA"><option value="">Team A...</option></select>
-          <span style="font-size:13px;color:var(--text-muted)">vs</span>
-          <select class="excl-select" id="matchupB"><option value="">Team B...</option></select>
-          <button class="excl-btn" onclick="addMatchup()">+ Add</button>
+      <div class="pair-area" style="margin-bottom:16px">
+        <div class="ctrl-label" style="margin-bottom:6px">Play at different times (not same slot)</div>
+        <div class="pair-list" id="diffTimeList"></div>
+        <div class="pair-row">
+          <select class="pair-select" id="diffA"><option value="">Team A...</option></select>
+          <span style="font-size:12px;color:var(--text-muted)">and</span>
+          <select class="pair-select" id="diffB"><option value="">Team B...</option></select>
+          <button class="add-btn" onclick="addDiffTime()">+ Add</button>
         </div>
       </div>
 
-      <button class="sched-btn" onclick="generateSchedule()">Generate Schedule</button>
-
-      <div class="schedule-output" id="scheduleOutput">
-        <button class="print-btn" onclick="window.print()">🖨 Print schedule</button>
-        <div id="schedWarnings"></div>
-        <div class="sched-grid" id="schedGrid"></div>
+      <div class="pair-area">
+        <div class="ctrl-label" style="margin-bottom:6px">Play on same court (keep groups together)</div>
+        <div class="pair-list" id="sameCourtList"></div>
+        <div class="pair-row">
+          <select class="pair-select" id="scA"><option value="">Team A...</option></select>
+          <span style="font-size:12px;color:var(--text-muted)">with</span>
+          <select class="pair-select" id="scB"><option value="">Team B...</option></select>
+          <button class="add-btn" onclick="addSameCourt()">+ Add</button>
+        </div>
       </div>
+    </div>
+
+    <button class="gen-btn" onclick="generateSchedule()">Generate Schedule</button>
+
+    <!-- OUTPUT -->
+    <div class="sched-output" id="schedOutput">
+      <div id="schedWarnings"></div>
+      <button class="print-btn" onclick="window.print()">🖨 Print schedule</button>
+      <div class="view-tabs">
+        <button class="view-tab active" onclick="showView('court',this)">By Court</button>
+        <button class="view-tab" onclick="showView('time',this)">By Time</button>
+        <button class="view-tab" onclick="showView('team',this)">By Team</button>
+      </div>
+      <div class="sched-view active" id="view-court"></div>
+      <div class="sched-view" id="view-time"></div>
+      <div class="sched-view" id="view-team"></div>
     </div>
   </div>
 </div>
@@ -250,175 +300,119 @@ const PASSWORD = 'alpha3v3admin';
 const AT_TOKEN = 'patMaOytGlSTj9Va0.f38644c7b3405321f4837f5295f7605fcb3438cc8d9db51bb4c20be551fdc864';
 const BASE_ID  = 'app78LPAIw7wzc4kl';
 const TABLE_ID = 'tblJj5dzDFnlFa7ie';
-
-const AGE_ORDER = {
-  '3rd grade':1,'3rd':1,
-  '4th/5th grade':2,'4th/5th':2,
-  '6th/7th grade':3,'6th/7th':3,
-  '8th/9th grade':4,'8th/9th':4,
-  '10th-12th grade':5,'10th-12th':5,'10th–12th grade':5
-};
 const WEEK_ORDER = ['Week 1','Week 2','Week 3','Week 4','Week 5'];
 const WEEK_DATES = {'Week 1':'Aug 23','Week 2':'Aug 30','Week 3':'Sep 13','Week 4':'Sep 20','Week 5':'Sep 27'};
+const AGE_ORDER = {'3rd grade':1,'3rd':1,'4th/5th grade':2,'4th/5th':2,'6th/7th grade':3,'6th/7th':3,'8th/9th grade':4,'8th/9th':4,'10th-12th grade':5,'10th-12th':5,'10th–12th grade':5};
 
-let allTeams = [];
-let currentWeek = 'Week 2';
-let exclusions = [];
-let requiredMatchups = [];
+let allTeams=[], currentWeek='Week 2';
+let sitOuts=[], reqMatches=[], noMatches=[], diffTimes=[], sameCourts=[];
 
-function fmtPhone(p){
-  if(!p) return '—';
-  const d = p.replace(/\D/g,'');
-  const n = d.length > 10 ? d.slice(-10) : d;
-  if(n.length === 10) return `(${n.slice(0,3)}) ${n.slice(3,6)}-${n.slice(6)}`;
-  return p;
-}
-
-function normalizeWeek(w){
-  if(!w) return null;
-  if(w.includes('Week 1')||w.includes('Aug 23')) return 'Week 1';
-  if(w.includes('Week 2')||w.includes('Aug 30')) return 'Week 2';
-  if(w.includes('Week 3')||w.includes('Sep 13')) return 'Week 3';
-  if(w.includes('Week 4')||w.includes('Sep 20')) return 'Week 4';
-  if(w.includes('Week 5')||w.includes('Sep 27')) return 'Week 5';
-  return null;
-}
-
-function ageRank(a){ return AGE_ORDER[a?.trim()] || 9; }
-function divRank(d){ return d==='Boys' ? 0 : 1; }
+function ageRank(a){return AGE_ORDER[a?.trim()]||9;}
+function divRank(d){return d==='Boys'?0:1;}
+function fmtPhone(p){if(!p)return '—';const d=p.replace(/\D/g,'');const n=d.length>10?d.slice(-10):d;if(n.length===10)return`(${n.slice(0,3)}) ${n.slice(3,6)}-${n.slice(6)}`;return p;}
+function normalizeWeek(w){if(!w)return null;if(w.includes('Week 1')||w.includes('Aug 23'))return'Week 1';if(w.includes('Week 2')||w.includes('Aug 30'))return'Week 2';if(w.includes('Week 3')||w.includes('Sep 13'))return'Week 3';if(w.includes('Week 4')||w.includes('Sep 20'))return'Week 4';if(w.includes('Week 5')||w.includes('Sep 27'))return'Week 5';return null;}
+function minsToTime(m){const h=Math.floor(m/60),min=m%60,ap=h>=12?'PM':'AM',h12=h>12?h-12:h===0?12:h;return`${h12}:${min.toString().padStart(2,'0')} ${ap}`;}
+function timeToMins(t){const[h,m]=t.split(':').map(Number);return h*60+m;}
 
 function checkPass(){
-  if(document.getElementById('passInput').value === PASSWORD){
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('adminScreen').style.display = 'block';
+  if(document.getElementById('passInput').value===PASSWORD){
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('adminScreen').style.display='block';
     loadData();
-  } else {
-    document.getElementById('loginError').style.display = 'block';
-  }
+  }else{document.getElementById('loginError').style.display='block';}
 }
-document.getElementById('passInput').addEventListener('keydown', e => { if(e.key==='Enter') checkPass(); });
+document.getElementById('passInput').addEventListener('keydown',e=>{if(e.key==='Enter')checkPass();});
 
-function showTab(tab, btn){
-  document.getElementById('tab-registrations').style.display = tab==='registrations' ? 'block' : 'none';
-  document.getElementById('tab-scheduler').style.display = tab==='scheduler' ? 'block' : 'none';
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+function showTab(tab,btn){
+  document.getElementById('tab-registrations').style.display=tab==='registrations'?'block':'none';
+  document.getElementById('tab-scheduler').style.display=tab==='scheduler'?'block':'none';
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function showView(v,btn){
+  document.querySelectorAll('.sched-view').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.view-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('view-'+v).classList.add('active');
   btn.classList.add('active');
 }
 
 async function fetchAll(){
-  let records = [], offset = null;
-  do {
-    const url = new URL(`https://api.airtable.com/v0/${BASE_ID}/${TABLE_ID}`);
+  let records=[],offset=null;
+  do{
+    const url=new URL(`https://api.airtable.com/v0/${BASE_ID}/${TABLE_ID}`);
     url.searchParams.set('pageSize','100');
-    if(offset) url.searchParams.set('offset', offset);
-    const res = await fetch(url, { headers:{ Authorization:`Bearer ${AT_TOKEN}` }});
-    if(!res.ok) throw new Error(`Airtable error ${res.status}`);
-    const data = await res.json();
-    records = records.concat(data.records);
-    offset = data.offset || null;
-  } while(offset);
+    if(offset)url.searchParams.set('offset',offset);
+    const res=await fetch(url,{headers:{Authorization:`Bearer ${AT_TOKEN}`}});
+    if(!res.ok)throw new Error(`Airtable error ${res.status}`);
+    const data=await res.json();
+    records=records.concat(data.records);
+    offset=data.offset||null;
+  }while(offset);
   return records;
 }
 
 async function loadData(){
-  document.getElementById('mainContent').innerHTML = '<div class="loading">Loading...</div>';
-  try {
-    const records = await fetchAll();
-    const raw = records.map(r => {
-      const f = r.fields;
-      const isPaid = f['Paid'] === true || f['Paid'] === 'checked' || f['Paid'] === 1;
-      const notes = (f['Notes'] || '').trim();
-      const payingAtDoor = notes.toLowerCase().includes('paying at door') || notes.toLowerCase().includes('cash');
-      return {
-        id: r.id,
-        name: f['Team Name'] || '',
-        division: f['Division'] || '',
-        age: (f['Age Group'] || '').trim(),
-        contact: f['Contact Name'] || '',
-        phone: fmtPhone(f['Phone'] || ''),
-        commitment: f['Commitment'] || '',
-        week: normalizeWeek(f['Week'] || ''),
-        paid: isPaid,
-        payingAtDoor,
-        notes,
-        submitted: f['Submitted At'] || ''
-      };
+  document.getElementById('mainContent').innerHTML='<div class="loading">Loading...</div>';
+  try{
+    const records=await fetchAll();
+    const raw=records.map(r=>{
+      const f=r.fields;
+      const isPaid=f['Paid']===true||f['Paid']==='checked'||f['Paid']===1;
+      const notes=(f['Notes']||'').trim();
+      const payingAtDoor=notes.toLowerCase().includes('paying at door')||notes.toLowerCase().includes('cash');
+      const failedPayment=notes.toLowerCase().includes('failed');
+      return{id:r.id,name:f['Team Name']||'',division:f['Division']||'',age:(f['Age Group']||'').trim(),
+        contact:f['Contact Name']||'',phone:fmtPhone(f['Phone']||''),commitment:f['Commitment']||'',
+        week:normalizeWeek(f['Week']||''),paid:isPaid,payingAtDoor,failedPayment,notes,submitted:f['Submitted At']||''};
     });
-
-    // Deduplicate by team name — prefer paid entry
-    const nameMap = {};
-    raw.forEach(t => {
-      const key = t.name.toLowerCase().trim();
-      if(!nameMap[key] || (t.paid && !nameMap[key].paid) || (t.week && !nameMap[key].week)){
-        nameMap[key] = t;
-      }
-    });
-    allTeams = Object.values(nameMap);
-
-    document.getElementById('lastUpdated').textContent = 'Updated ' + new Date().toLocaleTimeString();
-    buildTabs();
-    renderWeek(currentWeek);
-    buildSchedulerDropdowns();
-  } catch(err){
-    document.getElementById('mainContent').innerHTML =
-      `<div class="error-msg">Failed to load: ${err.message}</div>`;
-  }
+    const nameMap={};
+    raw.forEach(t=>{const k=t.name.toLowerCase().trim();if(!nameMap[k]||(t.paid&&!nameMap[k].paid)||(t.week&&!nameMap[k].week))nameMap[k]=t;});
+    allTeams=Object.values(nameMap);
+    document.getElementById('lastUpdated').textContent='Updated '+new Date().toLocaleTimeString();
+    buildTabs();renderWeek(currentWeek);buildSchedulerDropdowns();
+  }catch(err){document.getElementById('mainContent').innerHTML=`<div class="error-msg">Failed to load: ${err.message}</div>`;}
 }
 
 function buildTabs(){
-  const weeks = WEEK_ORDER.filter(w => allTeams.some(t => t.week===w || t.commitment==='Full Season'));
-  if(!weeks.includes('Week 1')) weeks.unshift('Week 1');
-  document.getElementById('weekTabs').innerHTML = weeks.map(w =>
+  const weeks=WEEK_ORDER.filter(w=>allTeams.some(t=>t.week===w||t.commitment==='Full Season'));
+  if(!weeks.includes('Week 1'))weeks.unshift('Week 1');
+  document.getElementById('weekTabs').innerHTML=weeks.map(w=>
     `<button class="week-tab${w===currentWeek?' active':''}" onclick="switchWeek('${w}',this)">${w} — ${WEEK_DATES[w]||''}</button>`
   ).join('');
 }
 
-function switchWeek(week, btn){
-  currentWeek = week;
-  document.querySelectorAll('.week-tab').forEach(t => t.classList.remove('active'));
+function switchWeek(week,btn){
+  currentWeek=week;
+  document.querySelectorAll('.week-tab').forEach(t=>t.classList.remove('active'));
   btn.classList.add('active');
   renderWeek(week);
 }
 
 function getConfirmedForWeek(week){
-  const confirmed = [];
-  const seen = new Set();
-  allTeams.forEach(t => {
-    const inForWeek = t.commitment==='Full Season'
-      ? t.paid
-      : (t.week===week && (t.paid || t.payingAtDoor));
-    if(inForWeek && !seen.has(t.name.toLowerCase())){
-      seen.add(t.name.toLowerCase());
-      confirmed.push(t);
-    }
+  const out=[],seen=new Set();
+  allTeams.forEach(t=>{
+    const inForWeek=t.commitment==='Full Season'?t.paid:(t.week===week&&(t.paid||t.payingAtDoor||t.failedPayment));
+    if(inForWeek&&!seen.has(t.name.toLowerCase())){seen.add(t.name.toLowerCase());out.push(t);}
   });
-  return confirmed;
+  return out;
 }
 
 function renderWeek(week){
-  const confirmed = getConfirmedForWeek(week);
-
-  // Unpaid: registered for this week, not paid, not paying at door
-  const confirmedNames = new Set(confirmed.map(t=>t.name.toLowerCase()));
-  const unpaid = allTeams.filter(t =>
-    t.week===week && !t.paid && !t.payingAtDoor && !confirmedNames.has(t.name.toLowerCase())
-  );
-
-  // Reach out: weekly teams from previous week not in this week
-  let reachOut = [];
-  if(week !== 'Week 1'){
-    const prevWeek = WEEK_ORDER[WEEK_ORDER.indexOf(week)-1];
-    const currAll = new Set(allTeams.filter(t => t.week===week || t.commitment==='Full Season').map(t=>t.name.toLowerCase()));
-    reachOut = allTeams.filter(t => t.week===prevWeek && t.commitment==='Weekly' && !currAll.has(t.name.toLowerCase()));
-    const seenR = new Set();
-    reachOut = reachOut.filter(t => { if(seenR.has(t.name.toLowerCase())) return false; seenR.add(t.name.toLowerCase()); return true; });
+  const confirmed=getConfirmedForWeek(week);
+  const confNames=new Set(confirmed.map(t=>t.name.toLowerCase()));
+  const unpaid=allTeams.filter(t=>t.week===week&&!t.paid&&!t.payingAtDoor&&!t.failedPayment&&!confNames.has(t.name.toLowerCase()));
+  let reachOut=[];
+  if(week!=='Week 1'){
+    const prevWeek=WEEK_ORDER[WEEK_ORDER.indexOf(week)-1];
+    const currAll=new Set(allTeams.filter(t=>t.week===week||t.commitment==='Full Season').map(t=>t.name.toLowerCase()));
+    const seen=new Set();
+    reachOut=allTeams.filter(t=>{if(t.week!==prevWeek||t.commitment!=='Weekly'||currAll.has(t.name.toLowerCase()))return false;if(seen.has(t.name.toLowerCase()))return false;seen.add(t.name.toLowerCase());return true;});
   }
+  const sort=arr=>[...arr].sort((a,b)=>divRank(a.division)-divRank(b.division)||ageRank(a.age)-ageRank(b.age)||a.name.localeCompare(b.name));
+  const boys=confirmed.filter(t=>t.division==='Boys'),girls=confirmed.filter(t=>t.division==='Girls');
 
-  const sort = arr => [...arr].sort((a,b) => divRank(a.division)-divRank(b.division) || ageRank(a.age)-ageRank(b.age) || a.name.localeCompare(b.name));
-  const boys = confirmed.filter(t=>t.division==='Boys');
-  const girls = confirmed.filter(t=>t.division==='Girls');
-
-  let html = `<div class="stats-row">
+  let html=`<div class="stats-row">
     <div class="stat-card"><div class="stat-label">Confirmed</div><div class="stat-num green">${confirmed.length}</div></div>
     <div class="stat-card"><div class="stat-label">Boys</div><div class="stat-num blue">${boys.length}</div></div>
     <div class="stat-card"><div class="stat-label">Girls</div><div class="stat-num pink">${girls.length}</div></div>
@@ -426,237 +420,206 @@ function renderWeek(week){
     ${week!=='Week 1'?`<div class="stat-card"><div class="stat-label">Reach Out</div><div class="stat-num yellow">${reachOut.length}</div></div>`:''}
   </div>`;
 
-  html += `<div class="section-block">
-    <div class="section-heading">✓ Confirmed for ${week} <span class="count">${confirmed.length} teams</span></div>
-    ${renderGrouped(sort(confirmed))}
-  </div>`;
-
-  if(unpaid.length){
-    html += `<div class="section-block">
-      <div class="section-heading" style="color:var(--red)">⚠ Registered — Not Paid <span class="count">${unpaid.length}</span></div>
-      ${renderGrouped(sort(unpaid), true)}
-    </div>`;
-  }
-
-  if(reachOut.length){
-    html += `<div class="section-block">
-      <div class="section-heading" style="color:var(--yellow)">📞 Not Signed Up for ${week} <span class="count">${reachOut.length}</span></div>
-      ${renderGrouped(sort(reachOut), false, true)}
-    </div>`;
-  }
-
-  document.getElementById('mainContent').innerHTML = html;
+  html+=`<div class="section-block"><div class="section-heading">✓ Confirmed for ${week} <span class="count">${confirmed.length} teams</span></div>${renderGrouped(sort(confirmed))}</div>`;
+  if(unpaid.length)html+=`<div class="section-block"><div class="section-heading" style="color:var(--red)">⚠ Registered — Not Paid <span class="count">${unpaid.length}</span></div>${renderGrouped(sort(unpaid),false,true)}</div>`;
+  if(reachOut.length)html+=`<div class="section-block"><div class="section-heading" style="color:var(--yellow)">📞 Not Signed Up for ${week} <span class="count">${reachOut.length}</span></div>${renderGrouped(sort(reachOut),true)}</div>`;
+  document.getElementById('mainContent').innerHTML=html;
 }
 
-function renderGrouped(teams, isUnpaid=false, isReach=false){
-  let html = '';
-  ['Boys','Girls'].forEach(div => {
-    const divTeams = teams.filter(t=>t.division===div);
-    if(!divTeams.length) return;
-    html += `<div class="division-block"><div class="division-label ${div.toLowerCase()}">${div}</div>`;
-    const ages = [...new Set(divTeams.map(t=>t.age||'Unknown'))].sort((a,b)=>ageRank(a)-ageRank(b));
-    ages.forEach(age => {
-      html += `<div class="age-label">${age}</div>`;
-      divTeams.filter(t=>(t.age||'Unknown')===age).forEach(t => {
-        const rowClass = isUnpaid ? 'unpaid' : isReach ? 'reach' : (div==='Boys'?'boys-row':'girls-row');
-        let notesHtml = '';
-        if(isUnpaid) notesHtml = `<span class="badge note-red">${t.notes || 'No payment'}</span>`;
-        else if(isReach) notesHtml = `<span class="badge reach">Reach Out</span>`;
-        else {
-          const commitBadge = t.commitment==='Full Season'
-            ? `<span class="badge full">Season</span>`
-            : `<span class="badge weekly">Weekly</span>`;
-          const doorBadge = t.payingAtDoor ? `<span class="badge door">At Door</span>` : '';
-          const notesBadge = t.notes && !t.payingAtDoor ? `<span class="badge door" title="${t.notes}">${t.notes.slice(0,20)}${t.notes.length>20?'…':''}</span>` : '';
-          notesHtml = commitBadge + doorBadge + notesBadge;
+function renderGrouped(teams,isReach=false,isUnpaid=false){
+  let html='';
+  ['Boys','Girls'].forEach(div=>{
+    const dt=teams.filter(t=>t.division===div);
+    if(!dt.length)return;
+    html+=`<div class="division-block"><div class="division-label ${div.toLowerCase()}">${div}</div>`;
+    const ages=[...new Set(dt.map(t=>t.age||'Unknown'))].sort((a,b)=>ageRank(a)-ageRank(b));
+    ages.forEach(age=>{
+      html+=`<div class="age-label">${age}</div>`;
+      dt.filter(t=>(t.age||'Unknown')===age).forEach(t=>{
+        let rowClass=div==='Boys'?'boys-row':'girls-row';
+        let notes='';
+        if(isReach){rowClass='reach';notes=`<span class="badge reach">Reach Out</span>`;}
+        else if(isUnpaid){notes=`<span class="badge failed">No Payment</span>`;}
+        else{
+          const cb=t.commitment==='Full Season'?`<span class="badge full">Season</span>`:`<span class="badge weekly">Weekly</span>`;
+          const db=t.payingAtDoor?`<span class="badge door">At Door</span>`:'';
+          const fb=t.failedPayment?`<span class="badge failed">Failed Payment</span>`:'';
+          const nb=t.notes&&!t.payingAtDoor&&!t.failedPayment?`<span class="badge note" title="${t.notes}">${t.notes.slice(0,25)}${t.notes.length>25?'…':''}</span>`:'';
+          notes=cb+db+fb+nb;
+          if(t.failedPayment)rowClass='failed';
         }
-        html += `<div class="team-row ${rowClass}">
-          <div class="team-name">${t.name}</div>
-          <div class="team-contact">${t.contact||'—'}</div>
-          <div class="team-phone">${t.phone||'—'}</div>
-          <div class="team-notes">${notesHtml}</div>
-        </div>`;
+        html+=`<div class="team-row ${rowClass}"><div class="team-name">${t.name}</div><div class="team-contact">${t.contact||'—'}</div><div class="team-phone">${t.phone||'—'}</div><div class="team-notes">${notes}</div></div>`;
       });
     });
-    html += `</div>`;
+    html+=`</div>`;
   });
-  return html || '<div class="empty-state">No teams.</div>';
+  return html||'<div class="empty-state">No teams.</div>';
 }
 
 // ── SCHEDULER ──
 function buildSchedulerDropdowns(){
-  const confirmed = getConfirmedForWeek(currentWeek);
-  const names = confirmed.map(t=>t.name).sort();
-  ['exclusionSelect','matchupA','matchupB'].forEach(id => {
-    const el = document.getElementById(id);
-    const first = el.options[0];
-    el.innerHTML = '';
-    el.appendChild(first);
-    names.forEach(n => {
-      const opt = document.createElement('option');
-      opt.value = n; opt.textContent = n;
-      el.appendChild(opt);
-    });
+  const names=getConfirmedForWeek(currentWeek).map(t=>t.name).sort();
+  ['sitOutSelect','reqA','reqB','noA','noB','diffA','diffB','scA','scB'].forEach(id=>{
+    const el=document.getElementById(id);
+    const first=el.options[0];
+    el.innerHTML='';el.appendChild(first);
+    names.forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;el.appendChild(o);});
   });
 }
 
-function addExclusion(){
-  const val = document.getElementById('exclusionSelect').value;
-  if(!val || exclusions.includes(val)) return;
-  exclusions.push(val);
-  renderExclusions();
-}
+function addSitOut(){const v=document.getElementById('sitOutSelect').value;if(!v||sitOuts.includes(v))return;sitOuts.push(v);renderSitOuts();}
+function removeSitOut(n){sitOuts=sitOuts.filter(x=>x!==n);renderSitOuts();}
+function renderSitOuts(){document.getElementById('sitOutList').innerHTML=sitOuts.map(n=>`<div class="pair-tag sit-out">${n}<button onclick="removeSitOut('${n.replace(/'/g,"\\'")}')">×</button></div>`).join('');}
 
-function removeExclusion(name){
-  exclusions = exclusions.filter(e=>e!==name);
-  renderExclusions();
-}
+function pairKey(a,b){return[a,b].sort().join('|||');}
+function addPair(arr,renderFn,elA,elB){const a=document.getElementById(elA).value,b=document.getElementById(elB).value;if(!a||!b||a===b)return;const k=pairKey(a,b);if(arr.find(x=>x.key===k))return;arr.push({a,b,key:k});renderFn();}
 
-function renderExclusions(){
-  document.getElementById('exclusionList').innerHTML = exclusions.map(e =>
-    `<div class="exclusion-tag">${e} <button onclick="removeExclusion('${e.replace(/'/g,"\\'")}')">×</button></div>`
-  ).join('');
-}
+function addReqMatch(){addPair(reqMatches,renderReqMatches,'reqA','reqB');}
+function removeReqMatch(k){reqMatches=reqMatches.filter(x=>x.key!==k);renderReqMatches();}
+function renderReqMatches(){document.getElementById('reqMatchList').innerHTML=reqMatches.map(m=>`<div class="pair-tag req-match">${m.a} vs ${m.b}<button onclick="removeReqMatch('${m.key.replace(/'/g,"\\'")}')">×</button></div>`).join('');}
 
-function addMatchup(){
-  const a = document.getElementById('matchupA').value;
-  const b = document.getElementById('matchupB').value;
-  if(!a || !b || a===b) return;
-  const key = [a,b].sort().join('|||');
-  if(requiredMatchups.find(m=>m.key===key)) return;
-  requiredMatchups.push({a, b, key});
-  renderMatchups();
-}
+function addNoMatch(){addPair(noMatches,renderNoMatches,'noA','noB');}
+function removeNoMatch(k){noMatches=noMatches.filter(x=>x.key!==k);renderNoMatches();}
+function renderNoMatches(){document.getElementById('noMatchList').innerHTML=noMatches.map(m=>`<div class="pair-tag no-match">${m.a} vs ${m.b}<button onclick="removeNoMatch('${m.key.replace(/'/g,"\\'")}')">×</button></div>`).join('');}
 
-function removeMatchup(key){
-  requiredMatchups = requiredMatchups.filter(m=>m.key!==key);
-  renderMatchups();
-}
+function addDiffTime(){addPair(diffTimes,renderDiffTimes,'diffA','diffB');}
+function removeDiffTime(k){diffTimes=diffTimes.filter(x=>x.key!==k);renderDiffTimes();}
+function renderDiffTimes(){document.getElementById('diffTimeList').innerHTML=diffTimes.map(m=>`<div class="pair-tag same-time">${m.a} & ${m.b}<button onclick="removeDiffTime('${m.key.replace(/'/g,"\\'")}')">×</button></div>`).join('');}
 
-function renderMatchups(){
-  document.getElementById('matchupList').innerHTML = requiredMatchups.map(m =>
-    `<div class="exclusion-tag" style="background:#DBEAFE;color:var(--boys)">${m.a} vs ${m.b} <button style="color:var(--boys)" onclick="removeMatchup('${m.key.replace(/'/g,"\\'")}')">×</button></div>`
-  ).join('');
-}
+function addSameCourt(){addPair(sameCourts,renderSameCourts,'scA','scB');}
+function removeSameCourt(k){sameCourts=sameCourts.filter(x=>x.key!==k);renderSameCourts();}
+function renderSameCourts(){document.getElementById('sameCourtList').innerHTML=sameCourts.map(m=>`<div class="pair-tag same-court">${m.a} & ${m.b}<button onclick="removeSameCourt('${m.key.replace(/'/g,"\\'")}')">×</button></div>`).join('');}
 
 function generateSchedule(){
-  const confirmed = getConfirmedForWeek(currentWeek).filter(t => !exclusions.includes(t.name));
-  const numCourts = parseInt(document.getElementById('numCourts').value) || 4;
-  const slotLen   = parseInt(document.getElementById('slotLen').value) || 15;
-  const gamesPerTeam = parseInt(document.getElementById('gamesPerTeam').value) || 3;
-  const startTime = document.getElementById('startTime').value || '14:00';
+  const confirmed=getConfirmedForWeek(currentWeek).filter(t=>!sitOuts.includes(t.name));
+  const numCourts=parseInt(document.getElementById('numCourts').value)||4;
+  const slotLen=parseInt(document.getElementById('slotLen').value)||15;
+  const gamesPerTeam=parseInt(document.getElementById('gamesPerTeam').value)||3;
+  const minRest=parseInt(document.getElementById('minRest').value)||1;
+  const startMins=timeToMins(document.getElementById('startTime').value||'14:00');
+  const endMins=timeToMins(document.getElementById('endTime').value||'18:00');
+  const maxSlots=Math.floor((endMins-startMins)/slotLen);
 
-  const [sh, sm] = startTime.split(':').map(Number);
-  const startMins = sh * 60 + sm;
+  const teams=confirmed.map(t=>({name:t.name,division:t.division,age:t.age}));
+  if(teams.length<2){alert('Not enough teams.');return;}
 
-  const teams = confirmed.map(t => t.name);
-  if(teams.length < 2){ alert('Not enough confirmed teams to schedule.'); return; }
+  const noMatchKeys=new Set(noMatches.map(m=>m.key));
+  const reqKeys=new Set(reqMatches.map(m=>m.key));
+  const diffTimeKeys=new Set(diffTimes.map(m=>m.key));
 
-  // Build all possible matchups
-  let pairs = [];
-  for(let i=0; i<teams.length; i++){
-    for(let j=i+1; j<teams.length; j++){
-      pairs.push([teams[i], teams[j]]);
-    }
+  // Build same-court groups
+  const courtGroup={};
+  sameCourts.forEach(({a,b})=>{
+    const ga=courtGroup[a],gb=courtGroup[b];
+    if(!ga&&!gb){const g=new Set([a,b]);courtGroup[a]=g;courtGroup[b]=g;}
+    else if(ga&&!gb){ga.add(b);courtGroup[b]=ga;}
+    else if(!ga&&gb){gb.add(a);courtGroup[a]=gb;}
+  });
+
+  // Build pairs — req first, then others
+  let pairs=[];
+  for(let i=0;i<teams.length;i++)for(let j=i+1;j<teams.length;j++){
+    const k=pairKey(teams[i].name,teams[j].name);
+    if(!noMatchKeys.has(k))pairs.push({a:teams[i].name,b:teams[j].name,key:k,required:reqKeys.has(k)});
   }
+  pairs.sort((a,b)=>b.required-a.required);
+  // shuffle non-required
+  const reqP=pairs.filter(p=>p.required),otherP=pairs.filter(p=>!p.required);
+  for(let i=otherP.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[otherP[i],otherP[j]]=[otherP[j],otherP[i]];}
+  pairs=[...reqP,...otherP];
 
-  // Shuffle pairs but put required matchups first
-  const reqKeys = new Set(requiredMatchups.map(m=>m.key));
-  const reqPairs = requiredMatchups.map(m=>[m.a, m.b]);
-  const otherPairs = pairs.filter(p => !reqKeys.has([p[0],p[1]].sort().join('|||')));
-  // Shuffle other pairs
-  for(let i=otherPairs.length-1; i>0; i--){
-    const j = Math.floor(Math.random()*(i+1));
-    [otherPairs[i], otherPairs[j]] = [otherPairs[j], otherPairs[i]];
-  }
-  const allPairs = [...reqPairs, ...otherPairs];
+  const teamGames={},teamLastSlot={};
+  teams.forEach(t=>{teamGames[t.name]=0;teamLastSlot[t.name]=-99;});
 
-  // Track games per team and last slot played
-  const teamGames = {};
-  const teamLastSlot = {};
-  teams.forEach(t => { teamGames[t] = 0; teamLastSlot[t] = -1; });
+  const schedule=[];
+  const usedPairs=new Set();
 
-  // Schedule: slots × courts
-  const maxSlots = Math.ceil((teams.length * gamesPerTeam) / (numCourts * 2)) + 8;
-  const schedule = []; // array of {slot, court, teamA, teamB}
-  const usedPairs = new Set();
+  for(let slot=0;slot<maxSlots;slot++){
+    const playingThisSlot=new Set();
+    const courtsThisSlot=[];
 
-  for(let slot=0; slot<maxSlots; slot++){
-    const courtsThisSlot = [];
-    const playingThisSlot = new Set();
+    // Determine court assignments for same-court groups
+    const courtAssignments={}; // teamName -> preferredCourt
 
-    for(let court=1; court<=numCourts; court++){
-      // Find a valid pair
-      let assigned = false;
-      for(let pi=0; pi<allPairs.length; pi++){
-        const [a,b] = allPairs[pi];
-        const pairKey = [a,b].sort().join('|||');
-        if(usedPairs.has(pairKey)) continue;
-        if(playingThisSlot.has(a) || playingThisSlot.has(b)) continue;
-        if(teamLastSlot[a] === slot-1 || teamLastSlot[b] === slot-1) continue; // no back to back
-        if(teamGames[a] >= gamesPerTeam || teamGames[b] >= gamesPerTeam) continue;
+    for(let court=1;court<=numCourts;court++){
+      for(let pi=0;pi<pairs.length;pi++){
+        const {a,b,key}=pairs[pi];
+        if(usedPairs.has(key))continue;
+        if(playingThisSlot.has(a)||playingThisSlot.has(b))continue;
+        if(teamGames[a]>=gamesPerTeam||teamGames[b]>=gamesPerTeam)continue;
+        if(slot-teamLastSlot[a]<minRest||slot-teamLastSlot[b]<minRest)continue;
+        // diff time constraint
+        let dtConflict=false;
+        diffTimes.forEach(({a:da,b:db})=>{
+          if((da===a||da===b)&&playingThisSlot.has(da===a?db:da))dtConflict=true;
+          if((db===a||db===b)&&playingThisSlot.has(db===a?da:db))dtConflict=true;
+        });
+        if(dtConflict)continue;
 
-        usedPairs.add(pairKey);
-        playingThisSlot.add(a);
-        playingThisSlot.add(b);
-        teamGames[a]++;
-        teamGames[b]++;
-        teamLastSlot[a] = slot;
-        teamLastSlot[b] = slot;
-
-        const timeMins = startMins + slot * slotLen;
-        const h = Math.floor(timeMins/60);
-        const m = timeMins%60;
-        const ampm = h >= 12 ? 'PM' : 'AM';
-        const h12 = h > 12 ? h-12 : h===0 ? 12 : h;
-        const timeStr = `${h12}:${m.toString().padStart(2,'0')} ${ampm}`;
-
-        // Court 1 & 2 preference: try to put required matchups there
-        schedule.push({ slot, court, teamA: a, teamB: b, time: timeStr });
-        assigned = true;
+        usedPairs.add(key);
+        playingThisSlot.add(a);playingThisSlot.add(b);
+        teamGames[a]++;teamGames[b]++;
+        teamLastSlot[a]=slot;teamLastSlot[b]=slot;
+        schedule.push({slot,court,teamA:a,teamB:b,time:minsToTime(startMins+slot*slotLen)});
         break;
       }
     }
-    // Check if all teams have their games
-    const done = teams.every(t => teamGames[t] >= gamesPerTeam);
-    if(done) break;
+    if(teams.every(t=>teamGames[t.name]>=gamesPerTeam))break;
   }
 
   // Warnings
-  const warnings = [];
-  teams.forEach(t => {
-    if(teamGames[t] < gamesPerTeam) warnings.push(`${t} only has ${teamGames[t]} game(s) scheduled (needs ${gamesPerTeam})`);
+  const warnings=[];
+  teams.forEach(t=>{if(teamGames[t.name]<gamesPerTeam)warnings.push(`${t.name}: ${teamGames[t.name]}/${gamesPerTeam} games scheduled`);});
+  reqMatches.forEach(({a,b,key})=>{if(!usedPairs.has(key))warnings.push(`Required matchup not scheduled: ${a} vs ${b}`);});
+
+  document.getElementById('schedWarnings').innerHTML=warnings.length?`<div class="sched-warning">⚠ ${warnings.join('<br>')}</div>`:'';
+
+  // BY COURT
+  const byCourt={};
+  for(let c=1;c<=numCourts;c++)byCourt[c]=[];
+  schedule.forEach(g=>byCourt[g.court].push(g));
+  let courtHtml=`<div class="court-grid">`;
+  for(let c=1;c<=numCourts;c++){
+    const games=byCourt[c].sort((a,b)=>a.slot-b.slot);
+    courtHtml+=`<div class="court-block"><div class="court-header">Court ${c}</div>${games.map(g=>`<div class="game-row"><div class="game-time">${g.time}</div><div class="game-matchup">${g.teamA}<span class="vs">vs</span>${g.teamB}</div></div>`).join('')||'<div class="empty-state">No games</div>'}</div>`;
+  }
+  courtHtml+=`</div>`;
+  document.getElementById('view-court').innerHTML=courtHtml;
+
+  // BY TIME
+  const bySlot={};
+  schedule.forEach(g=>{if(!bySlot[g.slot])bySlot[g.slot]=[];bySlot[g.slot].push(g);});
+  let timeHtml='';
+  Object.keys(bySlot).sort((a,b)=>a-b).forEach(slot=>{
+    const games=bySlot[slot].sort((a,b)=>a.court-b.court);
+    timeHtml+=`<div class="time-block"><div class="time-header">${games[0].time}</div><div class="time-courts">`;
+    for(let c=1;c<=numCourts;c++){
+      const g=games.find(x=>x.court===c);
+      timeHtml+=`<div class="time-court-cell"><div class="time-court-label">Court ${c}</div><div class="time-game">${g?`${g.teamA}<span class="vs">vs</span>${g.teamB}`:'<span style="color:var(--text-muted);font-size:12px">—</span>'}</div></div>`;
+    }
+    timeHtml+=`</div></div>`;
   });
+  document.getElementById('view-time').innerHTML=timeHtml||'<div class="empty-state">No games scheduled.</div>';
 
-  // Group by court
-  const byCourt = {};
-  for(let c=1; c<=numCourts; c++) byCourt[c] = [];
-  schedule.forEach(g => byCourt[g.court].push(g));
+  // BY TEAM
+  const byTeam={};
+  teams.forEach(t=>byTeam[t.name]=[]);
+  schedule.forEach(g=>{byTeam[g.teamA].push({opp:g.teamB,time:g.time,court:g.court,slot:g.slot});byTeam[g.teamB].push({opp:g.teamA,time:g.time,court:g.court,slot:g.slot});});
+  const sortedTeams=[...confirmed].sort((a,b)=>divRank(a.division)-divRank(b.division)||ageRank(a.age)-ageRank(b.age)||a.name.localeCompare(b.name)).filter(t=>!sitOuts.includes(t.name));
+  let teamHtml=`<div class="team-sched-grid">`;
+  sortedTeams.forEach(t=>{
+    const games=(byTeam[t.name]||[]).sort((a,b)=>a.slot-b.slot);
+    const hClass=t.division==='Boys'?'boys-h':'girls-h';
+    teamHtml+=`<div class="team-sched-card"><div class="team-sched-header ${hClass}">${t.name}</div>`;
+    teamHtml+=games.map(g=>`<div class="team-game-row"><div class="tg-time">${g.time}</div><div class="tg-opp">vs ${g.opp}</div><div class="tg-court">C${g.court}</div></div>`).join('');
+    if(!games.length)teamHtml+=`<div class="team-game-row" style="color:var(--text-muted);font-size:12px;font-style:italic;">No games scheduled</div>`;
+    teamHtml+=`</div>`;
+  });
+  teamHtml+=`</div>`;
+  document.getElementById('view-team').innerHTML=teamHtml;
 
-  let html = '';
-  if(warnings.length){
-    html += `<div class="sched-warning">⚠ ${warnings.join('<br>')}</div>`;
-  }
-  document.getElementById('schedWarnings').innerHTML = '';
-
-  html += `<div class="sched-grid">`;
-  for(let c=1; c<=numCourts; c++){
-    const games = byCourt[c].sort((a,b)=>a.slot-b.slot);
-    html += `<div class="court-block">
-      <div class="court-title">Court ${c}</div>
-      ${games.length ? games.map(g => `
-        <div class="game-row">
-          <div class="game-time">${g.time}</div>
-          <div class="game-matchup">${g.teamA}<span class="vs">vs</span>${g.teamB}</div>
-        </div>`).join('') : '<div class="empty-state">No games assigned.</div>'}
-    </div>`;
-  }
-  html += `</div>`;
-
-  document.getElementById('schedGrid').innerHTML = html;
-  document.getElementById('schedWarnings').innerHTML = warnings.length
-    ? `<div class="sched-warning">⚠ ${warnings.join('<br>')}</div>` : '';
-  document.getElementById('scheduleOutput').style.display = 'block';
+  document.getElementById('schedOutput').style.display='block';
+  document.getElementById('schedOutput').scrollIntoView({behavior:'smooth'});
 }
 </script>
 </body>
