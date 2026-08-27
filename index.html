@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alpha 3v3 Basketball League</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C96A;
+    --black: #0A0A0A;
+    --surface: #111111;
+    --surface2: #1A1A1A;
+    --border: rgba(201,168,76,0.25);
+    --text: #F0EAD6;
+    --text-muted: #9A9080;
+    --orange: #E05A2B;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--text); font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+  .hero {
+    min-height: 85vh; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; text-align: center; padding: 48px 24px 48px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 0%, rgba(201,168,76,0.12) 0%, transparent 70%),
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(201,168,76,0.04) 39px, rgba(201,168,76,0.04) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(201,168,76,0.04) 39px, rgba(201,168,76,0.04) 40px);
+    pointer-events: none;
+  }
+  .hero-eyebrow { font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; position: relative; }
+  .hero-eyebrow::before, .hero-eyebrow::after { content: '—'; margin: 0 12px; opacity: 0.5; }
+  .hero-brand { font-family: 'Oswald', sans-serif; font-size: clamp(64px, 16vw, 150px); font-weight: 700; line-height: 0.85; color: var(--gold); letter-spacing: -0.02em; position: relative; }
+  .hero-sport { font-family: 'Oswald', sans-serif; font-size: clamp(28px, 7vw, 64px); font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text); margin-top: 6px; position: relative; line-height: 1; }
+  .hero-location { font-family: 'Oswald', sans-serif; font-size: clamp(13px, 2.5vw, 16px); font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); margin-top: 16px; position: relative; }
+  .hero-tagline { font-size: 14px; color: var(--text-muted); margin-top: 10px; letter-spacing: 0.03em; position: relative; }
+  .hero-cta-group { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 36px; position: relative; }
+
+  .btn-primary { display: inline-block; font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--black); background: var(--gold); padding: 14px 36px; border-radius: 2px; text-decoration: none; transition: background 0.15s, transform 0.1s; cursor: pointer; border: none; }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .btn-secondary { display: inline-block; font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); background: transparent; padding: 13px 36px; border-radius: 2px; text-decoration: none; border: 1px solid var(--gold); transition: background 0.15s; cursor: pointer; }
+  .btn-secondary:hover { background: rgba(201,168,76,0.08); }
+
+  .section { max-width: 900px; margin: 0 auto; padding: 52px 24px; }
+  .section-label { font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+  .section-title { font-family: 'Oswald', sans-serif; font-size: clamp(30px, 5vw, 48px); font-weight: 700; line-height: 1.05; color: var(--text); margin-bottom: 36px; }
+  .divider { height: 1px; background: var(--border); }
+
+  .info-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+  @media (max-width: 680px) { .info-layout { grid-template-columns: 1fr; gap: 32px; } }
+  .info-block-title { font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+
+  .schedule-list { display: flex; flex-direction: column; gap: 2px; }
+  .schedule-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: var(--surface); border-left: 3px solid var(--gold); }
+  .schedule-row.playoff { border-left-color: var(--orange); }
+  .sched-date { font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 700; color: var(--gold); }
+  .schedule-row.playoff .sched-date { color: var(--orange); }
+  .sched-label { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); }
+  .sched-tag { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; background: rgba(224,90,43,0.15); color: var(--orange); border-radius: 2px; padding: 2px 8px; }
+
+  .details-list { display: flex; flex-direction: column; gap: 2px; }
+  .detail-row { display: flex; align-items: flex-start; gap: 14px; padding: 12px 16px; background: var(--surface); }
+  .detail-row-label { font-family: 'Oswald', sans-serif; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); min-width: 80px; padding-top: 2px; }
+  .detail-row-value { font-size: 14px; color: var(--text); line-height: 1.5; }
+
+  .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .pricing-card { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 28px 24px; display: flex; flex-direction: column; }
+  .pricing-card.featured { border-color: var(--gold); background: var(--surface2); }
+  .pricing-badge { font-family: 'Oswald', sans-serif; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--black); background: var(--gold); display: inline-block; padding: 3px 10px; border-radius: 2px; margin-bottom: 16px; align-self: flex-start; }
+  .pricing-label { font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
+  .pricing-amount { font-family: 'Oswald', sans-serif; font-size: 48px; font-weight: 700; line-height: 1; color: var(--gold); }
+  .pricing-amount span { font-size: 20px; font-weight: 400; color: var(--text-muted); vertical-align: top; margin-top: 8px; display: inline-block; }
+  .pricing-desc { font-size: 14px; color: var(--text-muted); margin-top: 12px; line-height: 1.5; flex: 1; margin-bottom: 20px; }
+  .deadline-pill { display: inline-block; background: rgba(224,90,43,0.12); color: var(--orange); font-size: 11px; font-family: 'Oswald', sans-serif; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 10px; border-radius: 2px; margin-left: 8px; vertical-align: middle; }
+  .stripe-btn { display: block; width: 100%; font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; text-align: center; text-decoration: none; color: var(--black); background: var(--gold); padding: 13px 20px; border-radius: 2px; transition: background 0.15s, transform 0.1s; }
+  .stripe-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .stripe-btn.outline { color: var(--gold); background: transparent; border: 1px solid var(--gold); }
+  .stripe-btn.outline:hover { background: rgba(201,168,76,0.08); }
+
+  .fan-section { background: var(--surface2); border: 1px solid var(--border); border-radius: 2px; padding: 32px 28px; display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+  @media (max-width: 640px) { .fan-section { grid-template-columns: 1fr; gap: 24px; } }
+  .fan-price { font-family: 'Oswald', sans-serif; font-size: 42px; font-weight: 700; color: var(--gold); white-space: nowrap; text-align: center; }
+  .fan-price span { font-size: 14px; font-weight: 400; color: var(--text-muted); display: block; text-align: center; }
+  .fan-divider { width: 1px; background: var(--border); height: 80px; }
+  @media (max-width: 640px) { .fan-divider { display: none; } }
+  .qr-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .qr-box { width: 120px; height: 120px; background: white; border-radius: 4px; display: flex; align-items: center; justify-content: center; padding: 4px; }
+  .qr-box img { width: 100%; height: 100%; display: block; }
+  .qr-label { font-family: 'Oswald', sans-serif; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); text-align: center; }
+
+  .register-section { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .form-grid { grid-template-columns: 1fr; } }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group.full { grid-column: 1 / -1; }
+  label { font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); }
+  input, select { background: var(--surface2); border: 1px solid var(--border); border-radius: 2px; color: var(--text); font-family: 'Inter', sans-serif; font-size: 15px; padding: 12px 14px; width: 100%; outline: none; transition: border-color 0.15s; -webkit-appearance: none; appearance: none; }
+  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9A84C' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer; }
+  select option { background: #1A1A1A; color: var(--text); }
+  input:focus, select:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,0.1); }
+  input::placeholder { color: var(--text-muted); }
+
+  .commitment-toggle { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--border); border-radius: 2px; overflow: hidden; grid-column: 1/-1; }
+  .com-opt input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+  .com-opt label { display: block; text-align: center; padding: 13px 12px; background: var(--surface2); cursor: pointer; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--text-muted); border-right: 1px solid var(--border); transition: background 0.15s, color 0.15s; }
+  .com-opt:last-child label { border-right: none; }
+  .com-opt input[type="radio"]:checked + label { background: rgba(201,168,76,0.1); color: var(--gold); }
+  .weekly-row { display: none; grid-column: 1/-1; flex-direction: column; gap: 6px; }
+  .weekly-row.visible { display: flex; }
+  .form-notice { background: rgba(201,168,76,0.06); border: 1px solid rgba(201,168,76,0.2); border-radius: 2px; padding: 14px 16px; font-size: 13px; color: var(--text-muted); grid-column: 1/-1; line-height: 1.6; }
+  .form-notice strong { color: var(--gold); font-weight: 500; }
+
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100; align-items: center; justify-content: center; padding: 24px; }
+  .modal-overlay.active { display: flex; }
+  .modal { background: var(--surface); border: 1px solid var(--gold); border-radius: 2px; padding: 40px 36px; max-width: 500px; width: 100%; text-align: center; }
+  .modal-icon { font-size: 48px; margin-bottom: 16px; }
+  .modal h2 { font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 700; color: var(--gold); margin-bottom: 12px; }
+  .modal p { font-size: 15px; color: var(--text-muted); line-height: 1.6; margin-bottom: 8px; }
+  .team-confirm { background: var(--surface2); border: 1px solid var(--border); border-radius: 2px; padding: 16px; margin: 20px 0; text-align: left; font-size: 14px; color: var(--text-muted); line-height: 1.9; }
+  .team-confirm strong { color: var(--text); }
+  .modal-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+
+  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .fade-in.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 600px) {
+    .hero { padding: 80px 20px 60px; }
+    .modal { padding: 28px 20px; }
+    .commitment-toggle { grid-template-columns: 1fr; }
+    .com-opt label { border-right: none; border-bottom: 1px solid var(--border); }
+    .com-opt:last-child label { border-bottom: none; }
+  }
+
+  .waiver-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 20px;
+    max-height: 220px;
+    overflow-y: auto;
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    grid-column: 1 / -1;
+    scroll-behavior: smooth;
+  }
+  .waiver-box::-webkit-scrollbar { width: 4px; }
+  .waiver-box::-webkit-scrollbar-track { background: var(--surface); }
+  .waiver-box::-webkit-scrollbar-thumb { background: var(--gold-dark, #8C6E2A); border-radius: 2px; }
+  .waiver-box h4 { font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+  .waiver-box p { margin-bottom: 10px; }
+
+  .waiver-check-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    grid-column: 1 / -1;
+    padding: 14px 16px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .waiver-check-row:hover { border-color: var(--gold); }
+  .waiver-check-row.checked { border-color: var(--gold); background: rgba(201,168,76,0.06); }
+  .waiver-check-row input[type="checkbox"] {
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    accent-color: var(--gold);
+    margin-top: 2px;
+    cursor: pointer;
+    background: white !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    appearance: auto !important;
+    -webkit-appearance: checkbox !important;
+  }
+  .waiver-check-row label {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--text-muted);
+    line-height: 1.5;
+    cursor: pointer;
+    user-select: none;
+  }
+  .waiver-check-row label strong { color: var(--gold); }
+
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <p class="hero-eyebrow">Alpha Basketball League</p>
+  <h1 class="hero-brand">3v3</h1>
+  <p class="hero-sport">Basketball</p>
+  <p class="hero-location">Ozark High School · Ozark, AR</p>
+  <p class="hero-tagline">Boys &amp; Girls · Grades 3–12 · Sundays starting Aug 23 · 2:00 PM</p>
+  <div class="hero-cta-group">
+    <a href="#register" class="btn-primary">Register your team</a>
+    <a href="#info" class="btn-secondary">League info</a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section fade-in" id="info">
+  <p class="section-label">League info</p>
+  <h2 class="section-title">Schedule &amp; Details</h2>
+  <div class="info-layout">
+    <div>
+      <div class="info-block-title">Season schedule — Sundays</div>
+      <div class="schedule-list">
+        <div class="schedule-row"><div><div class="sched-date">Aug 23</div><div class="sched-label">Week 1</div></div></div>
+        <div class="schedule-row"><div><div class="sched-date">Aug 30</div><div class="sched-label">Week 2</div></div></div>
+        <div class="schedule-row"><div><div class="sched-date">Sep 13</div><div class="sched-label">Week 3</div></div></div>
+        <div class="schedule-row"><div><div class="sched-date">Sep 20</div><div class="sched-label">Week 4</div></div></div>
+        <div class="schedule-row"><div><div class="sched-date">Sep 27</div><div class="sched-label">Week 5</div></div></div>
+
+      </div>
+    </div>
+    <div>
+      <div class="info-block-title">League details</div>
+      <div class="details-list">
+        <div class="detail-row"><div class="detail-row-label">Format</div><div class="detail-row-value">3v3 Basketball · FIBA 3x3 rules</div></div>
+        <div class="detail-row"><div class="detail-row-label">Roster</div><div class="detail-row-value">Up to 4 players per team</div></div>
+        <div class="detail-row"><div class="detail-row-label">Divisions</div><div class="detail-row-value">Boys &amp; Girls</div></div>
+        <div class="detail-row"><div class="detail-row-label">Age groups</div><div class="detail-row-value">3rd grade<br>4th / 5th grade<br>6th / 7th grade<br>8th / 9th grade<br>10th – 12th grade</div></div>
+        <div class="detail-row"><div class="detail-row-label">Win</div><div class="detail-row-value">First to 21 or top score after 10:00</div></div>
+        <div class="detail-row"><div class="detail-row-label">Location</div><div class="detail-row-value">Ozark High School, Ozark AR</div></div><div class="detail-row"><div class="detail-row-label">Start time</div><div class="detail-row-value">2:00 PM Sundays</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section fade-in" id="pricing">
+  <p class="section-label">Entry fees</p>
+  <h2 class="section-title">Team Registration</h2>
+  <div class="pricing-grid">
+    <div class="pricing-card featured">
+      <div class="pricing-badge">Best value</div>
+      <div class="pricing-label">Full season</div>
+      <div class="pricing-amount">$320<span>/ team</span></div>
+      <p class="pricing-desc">All 5 weeks plus playoffs. Pay once and you're set for the whole season. No weekly deadlines.</p>
+      <a href="https://buy.stripe.com/00w28s1Dn2aw3hO6zF1sQ03" target="_blank" class="stripe-btn">Pay $320 — Full Season →</a>
+    </div>
+    <div class="pricing-card">
+      <div class="pricing-label">Weekly <span class="deadline-pill">Fri by noon</span></div>
+      <div class="pricing-amount">$60<span>/ team</span></div>
+      <p class="pricing-desc">Sign up and pay week by week. Must register and pay by Friday noon before each game day.</p>
+      <a href="https://buy.stripe.com/8x29AU3Lv9CY2dKcY31sQ04" target="_blank" class="stripe-btn outline">Pay $60 — Weekly →</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="register-section fade-in" id="register">
+  <div class="section">
+    <p class="section-label">Team registration</p>
+    <h2 class="section-title">Register Your Team</h2>
+    <p style="font-size:14px; color:var(--text-muted); margin-top:-24px; margin-bottom:32px;">Fill out the form below, then complete your Stripe payment to lock in your spot.</p>
+    <div class="form-grid" id="regForm">
+      <div class="form-group">
+        <label for="teamName">Team name</label>
+        <input type="text" id="teamName" placeholder="e.g. Ozark Ballers" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label for="division">Division</label>
+        <select id="division">
+          <option value="" disabled selected>Select division</option>
+          <option>Boys</option>
+          <option>Girls</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="ageGroup">Age group</label>
+        <select id="ageGroup">
+          <option value="" disabled selected>Select age group</option>
+          <option value="3rd grade">3rd grade</option>
+          <option value="4th/5th grade">4th / 5th grade</option>
+          <option value="6th/7th grade">6th / 7th grade</option>
+          <option value="8th/9th grade">8th / 9th grade</option>
+          <option value="10th-12th grade">10th – 12th grade</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="contactName">Contact name</label>
+        <input type="text" id="contactName" placeholder="Your full name" autocomplete="off">
+      </div>
+      <div class="form-group full">
+        <label for="contactPhone">Contact phone</label>
+        <input type="tel" id="contactPhone" placeholder="(479) 555-0000" autocomplete="off">
+      </div>
+      <div class="form-group" style="grid-column:1/-1;">
+        <label>Commitment</label>
+        <div class="commitment-toggle">
+          <div class="com-opt"><input type="radio" name="commitment" id="com-season" value="season"><label for="com-season">Full Season — $320</label></div>
+          <div class="com-opt"><input type="radio" name="commitment" id="com-weekly" value="weekly"><label for="com-weekly">Weekly — $60 (by Fri noon)</label></div>
+        </div>
+      </div>
+      <div class="weekly-row" id="weekRow">
+        <label for="weekSelect">Which week?</label>
+        <select id="weekSelect">
+          <option value="" disabled selected>Select week</option>
+          <option>Aug 23 — Week 1</option>
+          <option>Aug 30 — Week 2</option>
+          <option>Sep 13 — Week 3</option>
+          <option>Sep 20 — Week 4</option>
+          <option>Sep 27 — Week 5</option>
+        </select>
+      </div>
+
+      <!-- WAIVER -->
+      <div class="waiver-box" id="waiverText">
+        <h4>Waiver &amp; Release of Liability — Alpha 3v3 Basketball League</h4>
+        <p>I agree to lead my team players and their parents/guardians to abide by the rules, regulations, and code of conduct of the Alpha 3v3 Basketball League. I certify that my team players are physically fit, healthy, and have medical clearance to participate in this event.</p>
+        <p>I acknowledge that participating in and attending basketball games involves inherent dangers and risks, including but not limited to serious injury and death. I further acknowledge that the Alpha Basketball League and 68 Club, LLC do not always provide trained medical personnel on location during athletic events, and that in the event of a medical emergency, outside medical treatment will be required.</p>
+        <p>My team players, parents, and I are aware that participating in this event may involve photography and/or video recording of players, coaches, and fans that may be published in print, video, or web media. I consent to such use and waive any claims or financial remuneration related thereto.</p>
+        <p>By checking the box below, I, on behalf of myself, my team, and their parents/guardians:</p>
+        <p><strong>(A) WAIVE, RELEASE, AND DISCHARGE</strong> from any and all liability — including liability arising from negligence — the Alpha Basketball League, 68 Club LLC, Ozark Public Schools, their officials, coaches, agents, representatives, and volunteers, for any death, disability, personal injury, property damage, or property theft that may occur in connection with participation in this league, including travel to and from events.</p>
+        <p><strong>(B) INDEMNIFY, HOLD HARMLESS, AND PROMISE NOT TO SUE</strong> the persons and entities listed above from any and all liabilities or claims made as a result of participation in this league, whether caused by negligence or otherwise.</p>
+        <p>I acknowledge that the Alpha 3v3 Basketball League has a <strong>NO REFUND policy</strong>. I certify that I have read this document, fully understand its content, and agree to its terms voluntarily and on my own free will.</p>
+      </div>
+      <div class="waiver-check-row" id="waiverCheckRow">
+        <input type="checkbox" id="waiverCheck" onchange="updateWaiverRow(this)">
+        <label for="waiverCheck"><strong>Electronic Signature:</strong> I/We have read, understand, and agree to comply with the Waiver and Release of Liability as outlined above. I confirm I have authority to sign on behalf of all team participants.</label>
+      </div>
+
+      <div class="form-notice">
+        <strong>Payment is required to secure your spot.</strong> After submitting you'll be taken directly to Stripe to pay. Your registration is not confirmed until payment is complete — unpaid registrations will not be placed on the schedule.
+      </div>
+      <div class="form-group full" style="margin-top:8px;">
+        <button class="btn-primary" onclick="submitForm()" style="width:100%; padding:16px; font-size:17px;">Submit &amp; pay now to lock your spot →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div class="divider"></div>
+
+<section class="section fade-in" id="weekly-payment">
+  <p class="section-label">Weekly teams</p>
+  <h2 class="section-title">Already Registered? Pay for Your Week</h2>
+  <p style="font-size:14px; color:var(--text-muted); margin-top:-24px; margin-bottom:32px;">
+    If your team is already registered and you need to pay for an upcoming week, select your week below and pay directly. No need to re-register — just pay by Friday noon before game day.
+  </p>
+
+  <div style="background:var(--surface2); border:1px solid var(--border); border-radius:2px; padding:32px 28px; max-width:560px;">
+    <div class="form-group" style="margin-bottom:20px;">
+      <label for="weeklyTeamName">Team name</label>
+      <input type="text" id="weeklyTeamName" placeholder="Your registered team name" autocomplete="off">
+    </div>
+    <div class="form-group" style="margin-bottom:24px;">
+      <label for="weeklyWeekSelect">Select week</label>
+      <select id="weeklyWeekSelect">
+        <option value="" disabled selected>Select week to pay for</option>
+        <option value="Week 2 — Aug 30">Week 2 — Aug 30</option>
+        <option value="Week 3 — Sep 13">Week 3 — Sep 13</option>
+        <option value="Week 4 — Sep 20">Week 4 — Sep 20</option>
+        <option value="Week 5 — Sep 27">Week 5 — Sep 27</option>
+      </select>
+    </div>
+    <div style="background:rgba(201,168,76,0.06); border:1px solid rgba(201,168,76,0.2); border-radius:2px; padding:14px 16px; margin-bottom:24px; font-size:13px; color:var(--text-muted); line-height:1.6;">
+      <strong style="color:var(--gold);">$60 per week · Due by Friday noon.</strong> Payment must be received before noon the Friday prior to game day or your team will not be scheduled.
+    </div>
+    <button class="btn-primary" onclick="payWeekly()" style="width:100%; padding:15px; font-size:16px;">
+      Pay $60 for selected week →
+    </button>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section fade-in" style="padding-top:60px; padding-bottom:60px; text-align:center;">
+  <p class="section-label">Questions?</p>
+  <h2 class="section-title" style="margin-bottom:16px;">Get in Touch</h2>
+  <p style="font-size:15px; color:var(--text-muted); max-width:420px; margin:0 auto 28px;">Reach out with roster questions, payment issues, or anything else about the Alpha 3v3 League.</p>
+  <a href="mailto:Brad.johnson@ozarkhillbillies.org" class="btn-primary">Brad.johnson@ozarkhillbillies.org</a>
+</section>
+
+<footer style="background:var(--black); border-top:1px solid var(--border); text-align:center; padding:40px 24px;">
+  <div style="font-family:'Oswald',sans-serif; font-size:20px; font-weight:700; color:var(--gold); letter-spacing:0.05em;">Alpha Basketball League</div>
+  <p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Ozark High School · Ozark, Arkansas</p>
+  <p style="font-size:13px; color:var(--text-muted); margin-top:16px;">© 2025 Alpha Basketball League · Managed by 68 Club, LLC</p>
+</footer>
+
+<div class="modal-overlay" id="modal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <div class="modal-icon">🏀</div>
+    <h2>Almost there!</h2>
+    <p>Your team info is recorded. Complete payment below to lock in your spot.</p>
+    <div class="team-confirm" id="confirmDetails"></div>
+    <p style="font-size:13px; margin-bottom:0;">You'll be taken to Stripe to pay securely. Your registration is confirmed once payment goes through.</p>
+    <div class="modal-actions">
+      <a id="paymentBtn" href="#" target="_blank" class="btn-primary" style="font-size:16px; padding:15px; text-decoration:none;">Complete payment →</a>
+      <button onclick="closeModal()" style="background:none; border:none; color:var(--text-muted); font-size:14px; cursor:pointer; padding:8px;">Go back and edit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const faders = document.querySelectorAll('.fade-in');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  faders.forEach(el => obs.observe(el));
+
+  document.querySelectorAll('input[name="commitment"]').forEach(r => {
+    r.addEventListener('change', function() {
+      const row = document.getElementById('weekRow');
+      this.value === 'weekly' ? row.classList.add('visible') : row.classList.remove('visible');
+      if (this.value !== 'weekly') document.getElementById('weekSelect').value = '';
+    });
+  });
+
+  const STRIPE_SEASON = 'https://buy.stripe.com/00w28s1Dn2aw3hO6zF1sQ03';
+  const STRIPE_WEEKLY = 'https://buy.stripe.com/8x29AU3Lv9CY2dKcY31sQ04';
+
+  function submitForm() {
+    const teamName    = document.getElementById('teamName').value.trim();
+    const division    = document.getElementById('division').value;
+    const ageGroup    = document.getElementById('ageGroup').value;
+    const contactName = document.getElementById('contactName').value.trim();
+    const contactPhone= document.getElementById('contactPhone').value.trim();
+    const commitment  = document.querySelector('input[name="commitment"]:checked');
+
+    const waiverChecked = document.getElementById('waiverCheck').checked;
+    if (!teamName || !division || !ageGroup || !contactName || !contactPhone || !commitment) {
+      alert('Please fill in all fields before submitting.');
+      return;
+    }
+    if (!waiverChecked) {
+      alert('Please read and agree to the Waiver & Release of Liability before submitting.');
+      document.getElementById('waiverText').scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+
+    const isWeekly = commitment.value === 'weekly';
+    let weekVal = '';
+    if (isWeekly) {
+      weekVal = document.getElementById('weekSelect').value;
+      if (!weekVal) { alert('Please select which week you are signing up for.'); return; }
+    }
+
+    const commitLabel = isWeekly ? 'Weekly — $60 (' + weekVal + ')' : 'Full Season — $320';
+
+    document.getElementById('confirmDetails').innerHTML =
+      '<strong>Team:</strong> ' + teamName + '<br>' +
+      '<strong>Division:</strong> ' + division + ' · ' + ageGroup + '<br>' +
+      '<strong>Contact:</strong> ' + contactName + ' · ' + contactPhone + '<br>' +
+      '<strong>Registration:</strong> ' + commitLabel;
+
+    document.getElementById('paymentBtn').href = isWeekly ? STRIPE_WEEKLY : STRIPE_SEASON;
+    document.getElementById('modal').classList.add('active');
+
+    fetch('https://hook.us2.make.com/6m534a3p7d6sh380sdgrm2w86pm6sek4', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        teamName, division, ageGroup, contactName, contactPhone,
+        commitment: isWeekly ? 'Weekly' : 'Full Season',
+        week: isWeekly ? weekVal : '',
+        submittedAt: new Date().toISOString()
+      })
+    }).catch(() => {});
+  }
+
+  function updateWaiverRow(cb) {
+    document.getElementById('waiverCheckRow').classList.toggle('checked', cb.checked);
+  }
+
+  function payWeekly() {
+    const team = document.getElementById('weeklyTeamName').value.trim();
+    const week = document.getElementById('weeklyWeekSelect').value;
+    if (!team) { alert('Please enter your team name.'); return; }
+    if (!week) { alert('Please select which week you are paying for.'); return; }
+
+    // Send to Make webhook so Brad can track it
+    fetch('https://hook.us2.make.com/6m534a3p7d6sh380sdgrm2w86pm6sek4', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        teamName: team,
+        division: 'Weekly re-up',
+        ageGroup: '',
+        contactName: '',
+        contactPhone: '',
+        commitment: 'Weekly',
+        week: week,
+        submittedAt: new Date().toISOString()
+      })
+    }).catch(() => {});
+
+    // Go straight to Stripe weekly payment link
+    window.open('https://buy.stripe.com/8x29AU3Lv9CY2dKcY31sQ04', '_blank');
+  }
+
+  function closeModal() { document.getElementById('modal').classList.remove('active'); }
+  document.getElementById('modal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+</script>
+</body>
+</html>
