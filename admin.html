@@ -8,162 +8,159 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --gold: #C9A84C;
-    --gold-light: #E8C96A;
-    --black: #0A0A0A;
-    --surface: #111111;
-    --surface2: #1A1A1A;
-    --border: rgba(201,168,76,0.2);
-    --text: #F0EAD6;
-    --text-muted: #9A9080;
-    --boys: #4A90D9;
-    --girls: #D96B8A;
-    --green: #4CAF7D;
-    --red: #E05A2B;
-    --yellow: #E8B84B;
+    --gold: #B8922A;
+    --black: #1A1A1A;
+    --surface: #FFFFFF;
+    --surface2: #F5F5F5;
+    --border: #E0E0E0;
+    --text: #1A1A1A;
+    --text-muted: #777777;
+    --boys: #2563EB;
+    --girls: #C026A0;
+    --green: #16A34A;
+    --red: #DC2626;
+    --yellow: #CA8A04;
+    --bg: #F0F2F5;
   }
-  body { background: var(--black); color: var(--text); font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased; min-height: 100vh; }
 
   /* LOGIN */
   .login-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
-  .login-box { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 48px 40px; max-width: 360px; width: 100%; text-align: center; }
-  .login-title { font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 700; color: var(--gold); margin-bottom: 6px; }
-  .login-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 28px; }
-  .login-input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 2px; color: var(--text); font-family: 'Inter', sans-serif; font-size: 15px; padding: 12px 14px; outline: none; margin-bottom: 12px; -webkit-appearance: none; }
-  .login-input:focus { border-color: var(--gold); }
-  .login-btn { width: 100%; font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--black); background: var(--gold); border: none; padding: 13px; border-radius: 2px; cursor: pointer; }
-  .login-btn:hover { background: var(--gold-light); }
-  .login-error { color: var(--red); font-size: 13px; margin-top: 10px; display: none; }
+  .login-box { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 48px 40px; max-width: 340px; width: 100%; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  .login-title { font-family: 'Oswald', sans-serif; font-size: 26px; font-weight: 700; color: var(--gold); margin-bottom: 4px; }
+  .login-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
+  .login-input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'Inter', sans-serif; font-size: 15px; padding: 11px 14px; outline: none; margin-bottom: 10px; }
+  .login-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(184,146,42,0.1); }
+  .login-btn { width: 100%; font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: white; background: var(--gold); border: none; padding: 12px; border-radius: 6px; cursor: pointer; }
+  .login-btn:hover { background: #9a7822; }
+  .login-error { color: var(--red); font-size: 13px; margin-top: 8px; display: none; }
 
   /* ADMIN */
-  .admin-screen { display: none; max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
+  .admin-screen { display: none; max-width: 1080px; margin: 0 auto; padding: 24px 20px 80px; }
 
-  .admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; flex-wrap: wrap; gap: 16px; }
-  .admin-logo { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; color: var(--gold); }
-  .admin-logo span { color: var(--text-muted); font-weight: 400; font-size: 14px; margin-left: 10px; }
+  .admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+  .admin-logo { font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700; color: var(--gold); }
+  .admin-logo span { color: var(--text-muted); font-weight: 400; font-size: 13px; margin-left: 8px; }
 
-  .header-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-  .refresh-btn { font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 8px 16px; border-radius: 2px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
+  .header-right { display: flex; align-items: center; gap: 10px; }
+  .refresh-btn { font-family: 'Inter', sans-serif; font-size: 13px; padding: 7px 14px; border-radius: 6px; border: 1px solid var(--border); background: white; color: var(--text-muted); cursor: pointer; }
   .refresh-btn:hover { border-color: var(--gold); color: var(--gold); }
   .last-updated { font-size: 12px; color: var(--text-muted); }
 
-  .week-tabs { display: flex; gap: 4px; flex-wrap: wrap; }
-  .week-tab { font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 8px 16px; border-radius: 2px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
+  .week-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
+  .week-tab { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; padding: 7px 16px; border-radius: 6px; border: 1px solid var(--border); background: white; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
   .week-tab:hover { border-color: var(--gold); color: var(--gold); }
-  .week-tab.active { background: var(--gold); border-color: var(--gold); color: var(--black); }
+  .week-tab.active { background: var(--gold); border-color: var(--gold); color: white; }
 
-  .loading { text-align: center; padding: 80px 24px; color: var(--text-muted); font-family: 'Oswald', sans-serif; font-size: 18px; letter-spacing: 0.1em; }
-  .error-msg { background: rgba(224,90,43,0.1); border: 1px solid rgba(224,90,43,0.3); border-radius: 2px; padding: 16px 20px; color: var(--red); font-size: 14px; margin-bottom: 24px; }
+  .loading { text-align: center; padding: 60px 24px; color: var(--text-muted); font-size: 15px; }
+  .error-msg { background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; padding: 14px 18px; color: var(--red); font-size: 13px; margin-bottom: 20px; }
 
-  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 28px; }
-  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 14px 16px; }
-  .stat-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
-  .stat-num { font-family: 'Oswald', sans-serif; font-size: 26px; font-weight: 700; color: var(--gold); }
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; margin-bottom: 20px; }
+  .stat-card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+  .stat-label { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; font-weight: 500; }
+  .stat-num { font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 700; color: var(--text); line-height: 1; }
   .stat-num.green { color: var(--green); }
   .stat-num.red { color: var(--red); }
   .stat-num.yellow { color: var(--yellow); }
   .stat-num.blue { color: var(--boys); }
   .stat-num.pink { color: var(--girls); }
 
-  .section-block { margin-bottom: 28px; }
-  .section-heading { font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
-  .section-heading .count { font-size: 11px; background: var(--surface2); color: var(--text-muted); padding: 2px 8px; border-radius: 2px; }
+  .section-block { margin-bottom: 24px; }
+  .section-heading { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .section-heading .count { background: var(--surface2); color: var(--text-muted); padding: 1px 7px; border-radius: 10px; font-size: 11px; }
 
-  .division-block { margin-bottom: 16px; }
-  .division-label { font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; padding: 5px 10px; border-radius: 2px; margin-bottom: 4px; display: inline-block; }
-  .division-label.boys { background: rgba(74,144,217,0.15); color: var(--boys); }
-  .division-label.girls { background: rgba(217,107,138,0.15); color: var(--girls); }
+  .division-block { margin-bottom: 12px; }
+  .division-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; margin-bottom: 4px; display: inline-block; }
+  .division-label.boys { background: #DBEAFE; color: var(--boys); }
+  .division-label.girls { background: #FCE7F3; color: var(--girls); }
 
-  .age-label { font-family: 'Oswald', sans-serif; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); padding: 4px 10px; margin-top: 6px; }
+  .age-label { font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); padding: 4px 10px; margin-top: 4px; }
 
-  .team-row { display: grid; grid-template-columns: 1fr 160px 150px 90px; gap: 10px; align-items: center; padding: 9px 12px; background: var(--surface); border-left: 3px solid transparent; margin-bottom: 2px; }
+  .team-row { display: grid; grid-template-columns: 1fr 160px 150px auto; gap: 10px; align-items: center; padding: 9px 12px; background: white; border: 1px solid var(--border); border-left: 4px solid transparent; margin-bottom: 2px; border-radius: 0 4px 4px 0; }
   .team-row.boys-row { border-left-color: var(--boys); }
   .team-row.girls-row { border-left-color: var(--girls); }
-  .team-row.unpaid { border-left-color: var(--red); background: rgba(224,90,43,0.06); }
-  .team-row.reach { border-left-color: var(--yellow); background: rgba(232,184,75,0.05); }
+  .team-row.unpaid { border-left-color: var(--red); background: #fef9f9; }
+  .team-row.reach { border-left-color: var(--yellow); background: #fefdf0; }
+  .team-row.door { border-left-color: #9CA3AF; background: #F9FAFB; }
 
-  .team-name { font-weight: 500; font-size: 14px; }
+  .team-name { font-weight: 600; font-size: 14px; color: var(--text); }
   .team-contact { font-size: 13px; color: var(--text-muted); }
   .team-phone { font-size: 13px; color: var(--text-muted); }
-  .team-badge-cell { text-align: right; }
+  .team-badge-cell { text-align: right; display: flex; gap: 4px; justify-content: flex-end; align-items: center; }
 
-  .badge { font-family: 'Oswald', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; display: inline-block; }
-  .badge.paid { background: rgba(76,175,125,0.15); color: var(--green); }
-  .badge.unpaid { background: rgba(224,90,43,0.15); color: var(--red); }
-  .badge.reach { background: rgba(232,184,75,0.15); color: var(--yellow); }
-  .badge.full { background: rgba(201,168,76,0.12); color: var(--gold); }
-  .badge.weekly { background: rgba(255,255,255,0.05); color: var(--text-muted); }
+  .badge { font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; display: inline-block; white-space: nowrap; }
+  .badge.paid { background: #DCFCE7; color: var(--green); }
+  .badge.unpaid { background: #FEE2E2; color: var(--red); }
+  .badge.reach { background: #FEF9C3; color: var(--yellow); }
+  .badge.door { background: #F3F4F6; color: #6B7280; }
+  .badge.full { background: #FEF3C7; color: var(--gold); }
+  .badge.weekly { background: #F3F4F6; color: #6B7280; }
+  .badge.note { background: #EFF6FF; color: var(--boys); max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-  .empty-state { padding: 20px 12px; font-size: 13px; color: var(--text-muted); font-style: italic; }
+  .empty-state { padding: 16px 12px; font-size: 13px; color: var(--text-muted); font-style: italic; }
 
   @media (max-width: 640px) {
     .team-row { grid-template-columns: 1fr auto; gap: 6px; }
     .team-contact, .team-phone { display: none; }
-    .admin-header { flex-direction: column; align-items: flex-start; }
   }
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
 <div class="login-screen" id="loginScreen">
   <div class="login-box">
     <div class="login-title">Alpha 3v3</div>
-    <div class="login-sub">Admin access only</div>
+    <div class="login-sub">Admin · Brad Johnson</div>
     <input type="password" class="login-input" id="passInput" placeholder="Password">
     <button class="login-btn" onclick="checkPass()">Enter</button>
     <div class="login-error" id="loginError">Incorrect password</div>
   </div>
 </div>
 
-<!-- ADMIN -->
 <div class="admin-screen" id="adminScreen">
   <div class="admin-header">
-    <div class="admin-logo">Alpha 3v3 <span>Admin</span></div>
+    <div class="admin-logo">Alpha 3v3 <span>Admin Dashboard</span></div>
     <div class="header-right">
       <span class="last-updated" id="lastUpdated"></span>
       <button class="refresh-btn" onclick="loadData()">↻ Refresh</button>
     </div>
   </div>
-
-  <div class="week-tabs" id="weekTabs" style="margin-bottom:24px;"></div>
-
+  <div class="week-tabs" id="weekTabs"></div>
   <div id="mainContent"><div class="loading">Loading registrations...</div></div>
 </div>
 
 <script>
-const PASSWORD = 'alpha3v3admin';
-const AT_TOKEN = 'patMaOytGlSTj9Va0.f38644c7b3405321f4837f5295f7605fcb3438cc8d9db51bb4c20be551fdc864';
-const BASE_ID  = 'app78LPAIw7wzc4kl';
-const TABLE_ID = 'tblJj5dzDFnlFa7ie';
+const PASSWORD  = 'alpha3v3admin';
+const AT_TOKEN  = 'patMaOytGlSTj9Va0.f38644c7b3405321f4837f5295f7605fcb3438cc8d9db51bb4c20be551fdc864';
+const BASE_ID   = 'app78LPAIw7wzc4kl';
+const TABLE_ID  = 'tblJj5dzDFnlFa7ie';
 
 const AGE_ORDER = {
   '3rd grade':1,'3rd':1,
   '4th/5th grade':2,'4th/5th':2,
   '6th/7th grade':3,'6th/7th':3,
-  '8th/9th grade':4,'8th/9th':4,'8th/9th ':4,
+  '8th/9th grade':4,'8th/9th':4,
   '10th-12th grade':5,'10th-12th':5,'10th–12th grade':5
 };
-
 const WEEK_ORDER = ['Week 1','Week 2','Week 3','Week 4','Week 5'];
+const WEEK_DATES = {'Week 1':'Aug 23','Week 2':'Aug 30','Week 3':'Sep 13','Week 4':'Sep 20','Week 5':'Sep 27'};
 
 function ageRank(a){ return AGE_ORDER[a?.trim()] || 9; }
 function divRank(d){ return d==='Boys' ? 0 : 1; }
 
 function normalizeWeek(w){
-  if (!w) return null;
-  if (w.includes('Week 1') || w.includes('Aug 23')) return 'Week 1';
-  if (w.includes('Week 2') || w.includes('Aug 30')) return 'Week 2';
-  if (w.includes('Week 3') || w.includes('Sep 13')) return 'Week 3';
-  if (w.includes('Week 4') || w.includes('Sep 20')) return 'Week 4';
-  if (w.includes('Week 5') || w.includes('Sep 27')) return 'Week 5';
-  return w;
+  if(!w) return null;
+  if(w.includes('Week 1')||w.includes('Aug 23')) return 'Week 1';
+  if(w.includes('Week 2')||w.includes('Aug 30')) return 'Week 2';
+  if(w.includes('Week 3')||w.includes('Sep 13')) return 'Week 3';
+  if(w.includes('Week 4')||w.includes('Sep 20')) return 'Week 4';
+  if(w.includes('Week 5')||w.includes('Sep 27')) return 'Week 5';
+  return null; // garbled data
 }
 
 let allTeams = [];
-let currentWeek = null;
+let currentWeek = 'Week 2';
 
-// ── AUTH ──
 function checkPass(){
   if(document.getElementById('passInput').value === PASSWORD){
     document.getElementById('loginScreen').style.display = 'none';
@@ -175,7 +172,6 @@ function checkPass(){
 }
 document.getElementById('passInput').addEventListener('keydown', e => { if(e.key==='Enter') checkPass(); });
 
-// ── FETCH ALL RECORDS ──
 async function fetchAll(){
   let records = [], offset = null;
   do {
@@ -192,54 +188,48 @@ async function fetchAll(){
 }
 
 async function loadData(){
-  document.getElementById('mainContent').innerHTML = '<div class="loading">Loading registrations...</div>';
+  document.getElementById('mainContent').innerHTML = '<div class="loading">Loading...</div>';
   try {
     const records = await fetchAll();
     allTeams = records.map(r => {
       const f = r.fields;
+      const isPaid = f['Paid'] === true || f['Paid'] === 'checked' || f['Paid'] === 1;
+      const notes = (f['Notes'] || '').trim();
+      const payingAtDoor = notes.toLowerCase().includes('paying at door') || notes.toLowerCase().includes('cash');
       return {
         id: r.id,
         name: f['Team Name'] || '',
         division: f['Division'] || '',
-        age: f['Age Group'] || '',
+        age: (f['Age Group'] || '').trim(),
         contact: f['Contact Name'] || '',
-        phone: f['Phone'] || '',
+        phone: (f['Phone'] || '').replace(/^\+?'?1?\s?/,'').trim(),
         commitment: f['Commitment'] || '',
         week: normalizeWeek(f['Week'] || ''),
-        paid: f['Paid'] === true || f['Paid'] === 'checked',
+        paid: isPaid,
+        payingAtDoor,
+        notes,
         submitted: f['Submitted At'] || ''
       };
     });
 
     document.getElementById('lastUpdated').textContent = 'Updated ' + new Date().toLocaleTimeString();
     buildTabs();
-    if(!currentWeek) currentWeek = getCurrentWeek();
     renderWeek(currentWeek);
   } catch(err){
     document.getElementById('mainContent').innerHTML =
-      `<div class="error-msg">Failed to load data: ${err.message}. Check your connection and try refreshing.</div>`;
+      `<div class="error-msg">Failed to load: ${err.message}. Try refreshing.</div>`;
   }
 }
 
-function getCurrentWeek(){
-  // Return the most recent week that has any teams
-  const weeks = WEEK_ORDER.filter(w => allTeams.some(t => t.week === w || (t.commitment==='Full Season' && t.paid)));
-  return weeks[weeks.length-1] || 'Week 2';
-}
-
-// ── TABS ──
 function buildTabs(){
-  const weeksPresent = WEEK_ORDER.filter(w =>
-    allTeams.some(t => t.week === w)
+  const weeks = WEEK_ORDER.filter(w =>
+    allTeams.some(t => t.week === w || t.commitment === 'Full Season')
   );
-  // Always show at least Week 1 and Week 2
-  ['Week 1','Week 2'].forEach(w => { if(!weeksPresent.includes(w)) weeksPresent.push(w); });
-  weeksPresent.sort((a,b) => WEEK_ORDER.indexOf(a) - WEEK_ORDER.indexOf(b));
+  if(!weeks.includes('Week 1')) weeks.unshift('Week 1');
+  if(!weeks.includes('Week 2') && weeks.length < 2) weeks.push('Week 2');
 
-  const dates = {'Week 1':'Aug 23','Week 2':'Aug 30','Week 3':'Sep 13','Week 4':'Sep 20','Week 5':'Sep 27'};
-  const tabsEl = document.getElementById('weekTabs');
-  tabsEl.innerHTML = weeksPresent.map(w =>
-    `<button class="week-tab${w===currentWeek?' active':''}" onclick="switchWeek('${w}',this)">${w} — ${dates[w]||''}</button>`
+  document.getElementById('weekTabs').innerHTML = weeks.map(w =>
+    `<button class="week-tab${w===currentWeek?' active':''}" onclick="switchWeek('${w}',this)">${w} — ${WEEK_DATES[w]||''}</button>`
   ).join('');
 }
 
@@ -250,105 +240,90 @@ function switchWeek(week, btn){
   renderWeek(week);
 }
 
-// ── RENDER ──
 function renderWeek(week){
-  // For a given week, a team is "in" if:
-  // - Full Season + paid
-  // - Weekly + week matches + paid
   const confirmed = [];
-  const unpaid = [];
+  const unpaid    = [];
+  const reachOut  = [];
   const seenNames = new Set();
 
-  // Full season paid teams are always confirmed
+  // Deduplicate — prefer paid entry over unpaid for same team name
+  const dedupedTeams = [];
+  const nameMap = {};
   allTeams.forEach(t => {
-    if(t.commitment === 'Full Season' && t.paid){
-      if(!seenNames.has(t.name.toLowerCase())){
-        seenNames.add(t.name.toLowerCase());
-        confirmed.push(t);
-      }
+    const key = t.name.toLowerCase().trim();
+    if(!nameMap[key]){
+      nameMap[key] = t;
+    } else {
+      // prefer paid
+      if(t.paid && !nameMap[key].paid) nameMap[key] = t;
+      // prefer one with valid week
+      if(t.week && !nameMap[key].week) nameMap[key] = t;
+    }
+  });
+  Object.values(nameMap).forEach(t => dedupedTeams.push(t));
+
+  dedupedTeams.forEach(t => {
+    const inForWeek = t.commitment === 'Full Season'
+      ? t.paid
+      : (t.week === week && (t.paid || t.payingAtDoor));
+
+    if(inForWeek){
+      confirmed.push(t);
+      seenNames.add(t.name.toLowerCase().trim());
+    } else if(t.week === week && !t.paid && !t.payingAtDoor){
+      unpaid.push(t);
     }
   });
 
-  // Weekly teams for this week
-  allTeams.forEach(t => {
-    if(t.commitment === 'Weekly' && t.week === week){
-      const key = t.name.toLowerCase();
-      if(t.paid){
-        if(!seenNames.has(key)){
-          seenNames.add(key);
-          confirmed.push(t);
-        }
-      } else {
-        // Only show as unpaid if not already confirmed by another entry
-        if(!seenNames.has(key)){
-          unpaid.push(t);
-        }
-      }
-    }
-  });
-
-  // Week 1 teams not signed up for current week (only relevant for W2+)
-  let reachOut = [];
+  // Reach out: teams from previous week not in current week
   if(week !== 'Week 1'){
     const prevWeek = WEEK_ORDER[WEEK_ORDER.indexOf(week)-1];
-    const prevNames = new Set(
-      allTeams.filter(t => t.week === prevWeek && t.commitment === 'Weekly')
-        .map(t => t.name.toLowerCase())
-    );
-    const currNames = new Set(
-      allTeams.filter(t => t.week === week || t.commitment === 'Full Season')
-        .map(t => t.name.toLowerCase())
-    );
-    reachOut = allTeams.filter(t =>
-      t.week === prevWeek &&
-      t.commitment === 'Weekly' &&
-      !currNames.has(t.name.toLowerCase())
-    );
-    // Dedupe
-    const seen = new Set();
-    reachOut = reachOut.filter(t => {
-      if(seen.has(t.name.toLowerCase())) return false;
-      seen.add(t.name.toLowerCase());
-      return true;
+    const currNamesAll = new Set(dedupedTeams.filter(t =>
+      t.commitment==='Full Season' || t.week===week
+    ).map(t => t.name.toLowerCase().trim()));
+
+    dedupedTeams.forEach(t => {
+      if(t.week === prevWeek && t.commitment === 'Weekly'){
+        if(!currNamesAll.has(t.name.toLowerCase().trim())){
+          reachOut.push(t);
+        }
+      }
     });
   }
 
-  // Sort
-  const sort = arr => [...arr].sort((a,b) => divRank(a.division)-divRank(b.division) || ageRank(a.age)-ageRank(b.age) || a.name.localeCompare(b.name));
+  const sort = arr => [...arr].sort((a,b) =>
+    divRank(a.division)-divRank(b.division) ||
+    ageRank(a.age)-ageRank(b.age) ||
+    a.name.localeCompare(b.name)
+  );
 
-  const boys = sort(confirmed).filter(t=>t.division==='Boys');
+  const boys  = sort(confirmed).filter(t=>t.division==='Boys');
   const girls = sort(confirmed).filter(t=>t.division==='Girls');
 
-  let html = '';
-
-  // Stats
-  html += `<div class="stats-row">
+  let html = `<div class="stats-row">
     <div class="stat-card"><div class="stat-label">Confirmed</div><div class="stat-num green">${confirmed.length}</div></div>
     <div class="stat-card"><div class="stat-label">Boys</div><div class="stat-num blue">${boys.length}</div></div>
     <div class="stat-card"><div class="stat-label">Girls</div><div class="stat-num pink">${girls.length}</div></div>
     <div class="stat-card"><div class="stat-label">Unpaid</div><div class="stat-num red">${unpaid.length}</div></div>
-    ${week!=='Week 1'?`<div class="stat-card"><div class="stat-label">Reach out</div><div class="stat-num yellow">${reachOut.length}</div></div>`:''}
+    ${week!=='Week 1'?`<div class="stat-card"><div class="stat-label">Reach Out</div><div class="stat-num yellow">${reachOut.length}</div></div>`:''}
   </div>`;
 
-  // Confirmed
   html += `<div class="section-block">
-    <div class="section-heading">✓ Confirmed <span class="count">${confirmed.length} teams</span></div>
+    <div class="section-heading">✓ Confirmed for ${week} <span class="count">${confirmed.length} teams</span></div>
     ${renderGrouped(sort(confirmed))}
   </div>`;
 
-  // Unpaid
   if(unpaid.length){
     html += `<div class="section-block">
       <div class="section-heading" style="color:var(--red)">⚠ Registered — Not Paid <span class="count">${unpaid.length}</span></div>
-      ${sort(unpaid).map(t => teamRow(t,'unpaid',badgeHtml('unpaid','No Payment'))).join('')}
+      ${sort(unpaid).map(t => teamRow(t,'unpaid',[badge('unpaid','No Payment'), t.notes?badge('note',t.notes):''])).join('')}
     </div>`;
   }
 
-  // Reach out
   if(reachOut.length){
     html += `<div class="section-block">
       <div class="section-heading" style="color:var(--yellow)">📞 Not Signed Up for ${week} <span class="count">${reachOut.length}</span></div>
-      ${sort(reachOut).map(t => teamRow(t,'reach',badgeHtml('reach','Reach Out'))).join('')}
+      ${sort(reachOut).map(t => teamRow(t,'reach',[badge('reach','Reach Out')])).join('')}
     </div>`;
   }
 
@@ -365,8 +340,12 @@ function renderGrouped(teams){
     ages.forEach(age => {
       html += `<div class="age-label">${age}</div>`;
       divTeams.filter(t=>(t.age||'Unknown')===age).forEach(t => {
-        const badge = t.commitment==='Full Season' ? badgeHtml('full','Season') : badgeHtml('weekly','Weekly');
-        html += teamRow(t, div==='Boys'?'boys-row':'girls-row', badge);
+        const badges = [
+          t.commitment==='Full Season' ? badge('full','Season') : badge('weekly','Weekly'),
+          t.payingAtDoor ? badge('door','At Door') : '',
+          t.notes && !t.payingAtDoor ? badge('note', t.notes) : ''
+        ];
+        html += teamRow(t, div==='Boys'?'boys-row':'girls-row', badges);
       });
     });
     html += `</div>`;
@@ -374,17 +353,17 @@ function renderGrouped(teams){
   return html || '<div class="empty-state">No teams yet.</div>';
 }
 
-function teamRow(t, rowClass, badgeContent){
+function teamRow(t, rowClass, badges){
   return `<div class="team-row ${rowClass}">
-    <div class="team-name">${t.name || '—'}</div>
-    <div class="team-contact">${t.contact || '—'}</div>
-    <div class="team-phone">${t.phone || '—'}</div>
-    <div class="team-badge-cell">${badgeContent}</div>
+    <div class="team-name">${t.name||'—'}</div>
+    <div class="team-contact">${t.contact||'—'}</div>
+    <div class="team-phone">${t.phone||'—'}</div>
+    <div class="team-badge-cell">${(badges||[]).filter(Boolean).join('')}</div>
   </div>`;
 }
 
-function badgeHtml(cls, label){
-  return `<span class="badge ${cls}">${label}</span>`;
+function badge(cls, label){
+  return `<span class="badge ${cls}" title="${label}">${label}</span>`;
 }
 </script>
 </body>
