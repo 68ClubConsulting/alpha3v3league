@@ -302,11 +302,21 @@ const BASE_ID  = 'app78LPAIw7wzc4kl';
 const TABLE_ID = 'tblJj5dzDFnlFa7ie';
 const WEEK_ORDER = ['Week 1','Week 2','Week 3','Week 4','Week 5'];
 const WEEK_DATES = {'Week 1':'Aug 23','Week 2':'Aug 30','Week 3':'Sep 13','Week 4':'Sep 20','Week 5':'Sep 27'};
-const AGE_ORDER = {'3rd grade':1,'3rd':1,'4th/5th grade':2,'4th/5th':2,'6th/7th grade':3,'6th/7th':3,'8th/9th grade':4,'8th/9th':4,'10th-12th grade':5,'10th-12th':5,'10th–12th grade':5};
+const AGE_ORDER = {'3rd Grade':1,'3rd grade':1,'3rd':1,'4th/5th Grade':2,'4th/5th grade':2,'4th/5th':2,'6th/7th Grade':3,'6th/7th grade':3,'6th/7th':3,'8th/9th Grade':4,'8th/9th grade':4,'8th/9th':4,'10th-12th Grade':5,'10th-12th grade':5,'10th-12th':5,'10th–12th grade':5};
 
 let allTeams=[], currentWeek='Week 2';
 let sitOuts=[], reqMatches=[], noMatches=[], diffTimes=[], sameCourts=[];
 
+function normalizeAge(a){
+  if(!a) return 'Unknown';
+  const s = a.trim().toLowerCase().replace(/\s*grade$/i,'').trim();
+  if(s==='3rd') return '3rd Grade';
+  if(s==='4th/5th'||s==='4th / 5th') return '4th/5th Grade';
+  if(s==='6th/7th'||s==='6th / 7th') return '6th/7th Grade';
+  if(s==='8th/9th'||s==='8th / 9th') return '8th/9th Grade';
+  if(s==='10th-12th'||s==='10th–12th'||s==='10th - 12th') return '10th-12th Grade';
+  return a.trim();
+}
 function ageRank(a){return AGE_ORDER[a?.trim()]||9;}
 function divRank(d){return d==='Boys'?0:1;}
 function fmtPhone(p){if(!p)return '—';const d=p.replace(/\D/g,'');const n=d.length>10?d.slice(-10):d;if(n.length===10)return`(${n.slice(0,3)}) ${n.slice(3,6)}-${n.slice(6)}`;return p;}
@@ -362,7 +372,7 @@ async function loadData(){
       const notes=(f['Notes']||'').trim();
       const payingAtDoor=notes.toLowerCase().includes('paying at door')||notes.toLowerCase().includes('cash');
       const failedPayment=notes.toLowerCase().includes('failed');
-      return{id:r.id,name:f['Team Name']||'',division:f['Division']||'',age:(f['Age Group']||'').trim(),
+      return{id:r.id,name:f['Team Name']||'',division:f['Division']||'',age:normalizeAge(f['Age Group']||''),
         contact:f['Contact Name']||'',phone:fmtPhone(f['Phone']||''),commitment:f['Commitment']||'',
         week:normalizeWeek(f['Week']||''),paid:isPaid,payingAtDoor,failedPayment,notes,submitted:f['Submitted At']||''};
     });
