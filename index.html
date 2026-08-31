@@ -353,36 +353,77 @@
 
 <div class="divider"></div>
 
-<section class="section fade-in" id="weekly-payment">
-  <p class="section-label">Weekly teams</p>
-  <h2 class="section-title">Already Registered? Pay for Your Week</h2>
-  <p style="font-size:14px; color:var(--text-muted); margin-top:-24px; margin-bottom:32px;">
-    If your team is already registered and you need to pay for an upcoming week, select your week below and pay directly. No need to re-register — just pay by Friday noon before game day.
-  </p>
-
-  <div style="background:var(--surface2); border:1px solid var(--border); border-radius:2px; padding:32px 28px; max-width:560px;">
-    <div class="form-group" style="margin-bottom:20px;">
-      <label for="weeklyTeamName">Team name</label>
-      <input type="text" id="weeklyTeamName" placeholder="Your registered team name" autocomplete="off">
+<section class="register-section fade-in" id="weekly-payment">
+  <div class="section">
+    <p class="section-label">Weekly teams</p>
+    <h2 class="section-title">Already Registered? Pay for Your Week</h2>
+    <p style="font-size:14px; color:var(--text-muted); margin-top:-24px; margin-bottom:32px;">
+      Playing week by week? Fill out the form below and pay. Must be submitted and paid by Friday noon before game day.
+    </p>
+    <div class="form-grid" id="weeklyForm">
+      <div class="form-group">
+        <label for="weeklyTeamName">Team name</label>
+        <input type="text" id="weeklyTeamName" placeholder="Your team name" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label for="weeklyDivision">Division</label>
+        <select id="weeklyDivision">
+          <option value="" disabled selected>Select division</option>
+          <option>Boys</option>
+          <option>Girls</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="weeklyAgeGroup">Age group</label>
+        <select id="weeklyAgeGroup">
+          <option value="" disabled selected>Select age group</option>
+          <option value="3rd grade">3rd grade</option>
+          <option value="4th/5th grade">4th / 5th grade</option>
+          <option value="6th/7th grade">6th / 7th grade</option>
+          <option value="8th/9th grade">8th / 9th grade</option>
+          <option value="10th-12th grade">10th - 12th grade</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="weeklyContactName">Contact name</label>
+        <input type="text" id="weeklyContactName" placeholder="Your full name" autocomplete="off">
+      </div>
+      <div class="form-group full">
+        <label for="weeklyContactPhone">Contact phone</label>
+        <input type="tel" id="weeklyContactPhone" placeholder="(479) 555-0000" autocomplete="off">
+      </div>
+      <div class="form-group full">
+        <label for="weeklyWeekSelect">Which week?</label>
+        <select id="weeklyWeekSelect">
+          <option value="" disabled selected>Select week to pay for</option>
+          <option value="Week 3 - Sep 13">Week 3 - Sep 13</option>
+          <option value="Week 4 - Sep 20">Week 4 - Sep 20</option>
+          <option value="Week 5 - Sep 27">Week 5 - Sep 27</option>
+        </select>
+      </div>
+      <div class="form-notice">
+        <strong>$60 per week · Due by Friday noon.</strong> Payment must be received before noon the Friday prior to game day or your team will not be scheduled.
+      </div>
+      <div class="form-group full" style="margin-top:8px;">
+        <button class="btn-primary" onclick="payWeekly()" style="width:100%; padding:16px; font-size:17px;">Submit &amp; proceed to payment</button>
+      </div>
     </div>
-    <div class="form-group" style="margin-bottom:24px;">
-      <label for="weeklyWeekSelect">Select week</label>
-      <select id="weeklyWeekSelect">
-        <option value="" disabled selected>Select week to pay for</option>
-        <option value="Week 2 — Aug 30">Week 2 — Aug 30</option>
-        <option value="Week 3 — Sep 13">Week 3 — Sep 13</option>
-        <option value="Week 4 — Sep 20">Week 4 — Sep 20</option>
-        <option value="Week 5 — Sep 27">Week 5 — Sep 27</option>
-      </select>
-    </div>
-    <div style="background:rgba(201,168,76,0.06); border:1px solid rgba(201,168,76,0.2); border-radius:2px; padding:14px 16px; margin-bottom:24px; font-size:13px; color:var(--text-muted); line-height:1.6;">
-      <strong style="color:var(--gold);">$60 per week · Due by Friday noon.</strong> Payment must be received before noon the Friday prior to game day or your team will not be scheduled.
-    </div>
-    <button class="btn-primary" onclick="payWeekly()" style="width:100%; padding:15px; font-size:16px;">
-      Pay $60 for selected week →
-    </button>
   </div>
 </section>
+
+<div class="modal-overlay" id="weeklyModal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <div class="modal-icon">✅</div>
+    <h2 style="color:#4CAF7D;">You're registered!</h2>
+    <p>Your team info has been submitted. Click below to complete your $60 payment and lock in your spot.</p>
+    <div class="team-confirm" id="weeklyConfirmDetails"></div>
+    <p style="font-size:13px; margin-bottom:0;">You'll be taken to Stripe to pay. Your spot is confirmed once payment goes through.</p>
+    <div class="modal-actions">
+      <a href="https://buy.stripe.com/8x29AU3Lv9CY2dKcY31sQ04" target="_blank" class="btn-primary" style="font-size:16px; padding:15px; text-decoration:none; background:#4CAF7D;">Complete payment — $60</a>
+      <button onclick="closeWeeklyModal()" style="background:none; border:none; color:var(--text-muted); font-size:14px; cursor:pointer; padding:8px;">Go back and edit</button>
+    </div>
+  </div>
+</div>
 
 <div class="divider"></div>
 
@@ -485,30 +526,46 @@
   }
 
   function payWeekly() {
-    const team = document.getElementById('weeklyTeamName').value.trim();
-    const week = document.getElementById('weeklyWeekSelect').value;
-    if (!team) { alert('Please enter your team name.'); return; }
-    if (!week) { alert('Please select which week you are paying for.'); return; }
+    const team        = document.getElementById('weeklyTeamName').value.trim();
+    const division    = document.getElementById('weeklyDivision').value;
+    const ageGroup    = document.getElementById('weeklyAgeGroup').value;
+    const contactName = document.getElementById('weeklyContactName').value.trim();
+    const contactPhone= document.getElementById('weeklyContactPhone').value.trim();
+    const week        = document.getElementById('weeklyWeekSelect').value;
 
-    // Send to Make webhook so Brad can track it
+    if (!team)        { alert('Please enter your team name.'); return; }
+    if (!division)    { alert('Please select Boys or Girls.'); return; }
+    if (!ageGroup)    { alert('Please select an age group.'); return; }
+    if (!contactName) { alert('Please enter a contact name.'); return; }
+    if (!contactPhone){ alert('Please enter a contact phone number.'); return; }
+    if (!week)        { alert('Please select which week you are paying for.'); return; }
+
+    // Send to Make webhook
     fetch('https://hook.us2.make.com/6m534a3p7d6sh380sdgrm2w86pm6sek4', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        teamName: team,
-        division: '',
-        ageGroup: '',
-        contactName: '',
-        contactPhone: '',
-        commitment: 'Weekly',
-        week: week,
-        submittedAt: new Date().toISOString()
+        teamName: team, division, ageGroup, contactName, contactPhone,
+        commitment: 'Weekly', week, submittedAt: new Date().toISOString()
       })
     }).catch(() => {});
 
-    // Go straight to Stripe weekly payment link
-    window.open('https://buy.stripe.com/8x29AU3Lv9CY2dKcY31sQ04', '_blank');
+    // Show confirmation modal
+    document.getElementById('weeklyConfirmDetails').innerHTML =
+      '<strong>Team:</strong> ' + team + '<br>' +
+      '<strong>Division:</strong> ' + division + ' · ' + ageGroup + '<br>' +
+      '<strong>Contact:</strong> ' + contactName + ' · ' + contactPhone + '<br>' +
+      '<strong>Week:</strong> ' + week;
+    document.getElementById('weeklyModal').classList.add('active');
   }
+
+  function closeWeeklyModal() {
+    document.getElementById('weeklyModal').classList.remove('active');
+    // Reset weekly form
+    ['weeklyTeamName','weeklyContactName','weeklyContactPhone'].forEach(id => document.getElementById(id).value = '');
+    ['weeklyDivision','weeklyAgeGroup','weeklyWeekSelect'].forEach(id => document.getElementById(id).value = '');
+  }
+  document.getElementById('weeklyModal').addEventListener('click', function(e) { if(e.target===this) closeWeeklyModal(); });
 
   function closeModal() { document.getElementById('modal').classList.remove('active'); }
   document.getElementById('modal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
