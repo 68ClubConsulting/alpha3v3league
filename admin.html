@@ -411,7 +411,16 @@ function getConfirmedForWeek(week){
 function renderWeek(week){
   const confirmed=getConfirmedForWeek(week);
   const confNames=new Set(confirmed.map(t=>t.name.toLowerCase()));
-  const unpaid=allTeams.filter(t=>t.week===week&&!t.paid&&!t.payingAtDoor&&!t.failedPayment&&!confNames.has(t.name.toLowerCase()));
+
+  // Teams paid but missing division info (came from weekly re-up section)
+  const needsInfo=allTeams.filter(t=>
+    t.week===week && t.paid &&
+    (!t.division||t.division===''||t.division.toLowerCase().includes('weekly')) &&
+    !confNames.has(t.name.toLowerCase())
+  );
+  const needsInfoNames=new Set(needsInfo.map(t=>t.name.toLowerCase()));
+
+  const unpaid=allTeams.filter(t=>t.week===week&&!t.paid&&!t.payingAtDoor&&!t.failedPayment&&!confNames.has(t.name.toLowerCase())&&!needsInfoNames.has(t.name.toLowerCase()));
   let reachOut=[];
   if(week!=='Week 1'){
     const prevWeek=WEEK_ORDER[WEEK_ORDER.indexOf(week)-1];
@@ -427,10 +436,23 @@ function renderWeek(week){
     <div class="stat-card"><div class="stat-label">Boys</div><div class="stat-num blue">${boys.length}</div></div>
     <div class="stat-card"><div class="stat-label">Girls</div><div class="stat-num pink">${girls.length}</div></div>
     <div class="stat-card"><div class="stat-label">Unpaid</div><div class="stat-num red">${unpaid.length}</div></div>
+    ${needsInfo.length?`<div class="stat-card"><div class="stat-label">Needs Info</div><div class="stat-num" style="color:#7C3AED">${needsInfo.length}</div></div>`:''}
     ${week!=='Week 1'?`<div class="stat-card"><div class="stat-label">Reach Out</div><div class="stat-num yellow">${reachOut.length}</div></div>`:''}
   </div>`;
 
   html+=`<div class="section-block"><div class="section-heading">✓ Confirmed for ${week} <span class="count">${confirmed.length} teams</span></div>${renderGrouped(sort(confirmed))}</div>`;
+
+  if(needsInfo.length){
+    html+=`<div class="section-block"><div class="section-heading" style="color:#7C3AED">⚠ Paid — Missing Division/Grade Info <span class="count">${needsInfo.length}</span></div>`;
+    html+=needsInfo.map(t=>`<div class="team-row" style="border-left:4px solid #7C3AED;background:#faf5ff">
+      <div class="team-name">${t.name||'Unknown'}</div>
+      <div class="team-contact">${t.contact||'—'}</div>
+      <div class="team-phone">${t.phone||'—'}</div>
+      <div class="team-notes"><span class="badge" style="background:#EDE9FE;color:#7C3AED">Update in Airtable</span></div>
+    </div>`).join('');
+    html+=`</div>`;
+  }
+
   if(unpaid.length)html+=`<div class="section-block"><div class="section-heading" style="color:var(--red)">⚠ Registered — Not Paid <span class="count">${unpaid.length}</span></div>${renderGrouped(sort(unpaid),false,true)}</div>`;
   if(reachOut.length)html+=`<div class="section-block"><div class="section-heading" style="color:var(--yellow)">📞 Not Signed Up for ${week} <span class="count">${reachOut.length}</span></div>${renderGrouped(sort(reachOut),true)}</div>`;
   document.getElementById('mainContent').innerHTML=html;
