@@ -304,7 +304,7 @@ const WEEK_ORDER = ['Week 1','Week 2','Week 3','Week 4','Week 5'];
 const WEEK_DATES = {'Week 1':'Aug 23','Week 2':'Aug 30','Week 3':'Sep 13','Week 4':'Sep 20','Week 5':'Sep 27'};
 const AGE_ORDER = {'3rd Grade':1,'3rd grade':1,'3rd':1,'4th/5th Grade':2,'4th/5th grade':2,'4th/5th':2,'6th/7th Grade':3,'6th/7th grade':3,'6th/7th':3,'8th/9th Grade':4,'8th/9th grade':4,'8th/9th':4,'10th-12th Grade':5,'10th-12th grade':5,'10th-12th':5,'10th–12th grade':5};
 
-let allTeams=[], currentWeek='Week 2';
+let allTeams=[], allRaw=[], currentWeek='Week 2';
 let sitOuts=[], reqMatches=[], noMatches=[], diffTimes=[], sameCourts=[];
 
 function normalizeAge(a){
@@ -377,8 +377,17 @@ async function loadData(){
         week:normalizeWeek(f['Week']||''),paid:isPaid,payingAtDoor,failedPayment,notes,submitted:f['Submitted At']||''};
     });
     const nameMap={};
-    raw.forEach(t=>{const k=t.name.toLowerCase().trim();if(!nameMap[k]||(t.paid&&!nameMap[k].paid)||(t.week&&!nameMap[k].week))nameMap[k]=t;});
+    raw.forEach(t=>{
+      const k=t.name.toLowerCase().trim();
+      if(!nameMap[k]) { nameMap[k]=t; return; }
+      const e=nameMap[k];
+      // Prefer Week 3 entry over any other week
+      if(t.week==='Week 3' && e.week!=='Week 3') { nameMap[k]=t; return; }
+      // Among same week, prefer paid
+      if(t.week===e.week && t.paid && !e.paid) { nameMap[k]=t; }
+    });
     allTeams=Object.values(nameMap);
+    allRaw=raw;
     document.getElementById('lastUpdated').textContent='Updated '+new Date().toLocaleTimeString();
     buildTabs();renderWeek(currentWeek);buildSchedulerDropdowns();
   }catch(err){document.getElementById('mainContent').innerHTML=`<div class="error-msg">Failed to load: ${err.message}</div>`;}
@@ -424,9 +433,12 @@ function renderWeek(week){
   let reachOut=[];
   if(week!=='Week 1'){
     const prevWeek=WEEK_ORDER[WEEK_ORDER.indexOf(week)-1];
-    const currAll=new Set(allTeams.filter(t=>t.week===week||t.commitment==='Full Season').map(t=>t.name.toLowerCase()));
+    // Use raw undeduped records so teams with both Week 2 AND Week 3 entries don't appear in reach out
+    const currAllNames=new Set(allRaw.filter(t=>t.week===week||t.commitment==='Full Season').map(t=>t.name.toLowerCase()));
+    const prevWeekNames=new Set(allRaw.filter(t=>t.week===prevWeek&&t.commitment==='Weekly').map(t=>t.name.toLowerCase()));
+    const reachNames=new Set([...prevWeekNames].filter(n=>!currAllNames.has(n)));
     const seen=new Set();
-    reachOut=allTeams.filter(t=>{if(t.week!==prevWeek||t.commitment!=='Weekly'||currAll.has(t.name.toLowerCase()))return false;if(seen.has(t.name.toLowerCase()))return false;seen.add(t.name.toLowerCase());return true;});
+    reachOut=[...reachNames].map(n=>allTeams.find(t=>t.name.toLowerCase()===n)).filter(Boolean).filter(t=>{if(seen.has(t.name.toLowerCase()))return false;seen.add(t.name.toLowerCase());return true;});
   }
   const sort=arr=>[...arr].sort((a,b)=>divRank(a.division)-divRank(b.division)||ageRank(a.age)-ageRank(b.age)||a.name.localeCompare(b.name));
   const boys=confirmed.filter(t=>t.division==='Boys'),girls=confirmed.filter(t=>t.division==='Girls');
