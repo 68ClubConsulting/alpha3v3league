@@ -432,13 +432,18 @@ function renderWeek(week){
   const unpaid=allTeams.filter(t=>t.week===week&&!t.paid&&!t.payingAtDoor&&!t.failedPayment&&!confNames.has(t.name.toLowerCase())&&!needsInfoNames.has(t.name.toLowerCase()));
   let reachOut=[];
   if(week!=='Week 1'){
-    const prevWeek=WEEK_ORDER[WEEK_ORDER.indexOf(week)-1];
-    // Use raw undeduped records so teams with both Week 2 AND Week 3 entries don't appear in reach out
-    const currAllNames=new Set(allRaw.filter(t=>t.week===week||t.commitment==='Full Season').map(t=>t.name.toLowerCase()));
-    const prevWeekNames=new Set(allRaw.filter(t=>t.week===prevWeek&&t.commitment==='Weekly').map(t=>t.name.toLowerCase()));
-    const reachNames=new Set([...prevWeekNames].filter(n=>!currAllNames.has(n)));
+    // Reach out = teams that have appeared in ANY prior week as weekly,
+    // but have NO entry for the current week and are not full season
+    const currWeekNames=new Set(allRaw.filter(t=>t.week===week).map(t=>t.name.toLowerCase()));
+    const fullSeasonNames=new Set(allRaw.filter(t=>t.commitment==='Full Season'&&t.paid).map(t=>t.name.toLowerCase()));
+    const priorWeekNames=new Set(allRaw.filter(t=>t.commitment==='Weekly'&&t.week!==week).map(t=>t.name.toLowerCase()));
+    const reachNames=[...priorWeekNames].filter(n=>!currWeekNames.has(n)&&!fullSeasonNames.has(n));
     const seen=new Set();
-    reachOut=[...reachNames].map(n=>allTeams.find(t=>t.name.toLowerCase()===n)).filter(Boolean).filter(t=>{if(seen.has(t.name.toLowerCase()))return false;seen.add(t.name.toLowerCase());return true;});
+    reachOut=reachNames.map(n=>allTeams.find(t=>t.name.toLowerCase()===n)).filter(Boolean).filter(t=>{
+      if(seen.has(t.name.toLowerCase()))return false;
+      seen.add(t.name.toLowerCase());
+      return true;
+    });
   }
   const sort=arr=>[...arr].sort((a,b)=>divRank(a.division)-divRank(b.division)||ageRank(a.age)-ageRank(b.age)||a.name.localeCompare(b.name));
   const boys=confirmed.filter(t=>t.division==='Boys'),girls=confirmed.filter(t=>t.division==='Girls');
