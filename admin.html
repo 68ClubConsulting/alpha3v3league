@@ -320,7 +320,25 @@ function normalizeAge(a){
 function ageRank(a){return AGE_ORDER[a?.trim()]||9;}
 function divRank(d){return d==='Boys'?0:1;}
 function fmtPhone(p){if(!p)return '—';const d=p.replace(/\D/g,'');const n=d.length>10?d.slice(-10):d;if(n.length===10)return`(${n.slice(0,3)}) ${n.slice(3,6)}-${n.slice(6)}`;return p;}
-function normalizeWeek(w){if(!w)return null;if(w.includes('Week 1')||w.includes('Aug 23'))return'Week 1';if(w.includes('Week 2')||w.includes('Aug 30'))return'Week 2';if(w.includes('Week 3')||w.includes('Sep 13'))return'Week 3';if(w.includes('Week 4')||w.includes('Sep 20'))return'Week 4';if(w.includes('Week 5')||w.includes('Sep 27'))return'Week 5';return null;}
+function normalizeWeek(w){
+  if(!w||!w.trim()) return null;
+  const s=w.trim();
+  // Match any format containing week number or date — handles:
+  // "Week 4 - Sep 20", "Week 4 — Sep 20", "Sep 20 — Week 4",
+  // "Week 4", "Sep 20", "9/20", "week4", etc.
+  const checks = [
+    {out:'Week 1', patterns:['week 1','week1','aug 23','aug23','8/23','8-23']},
+    {out:'Week 2', patterns:['week 2','week2','aug 30','aug30','8/30','8-30']},
+    {out:'Week 3', patterns:['week 3','week3','sep 13','sep13','9/13','9-13']},
+    {out:'Week 4', patterns:['week 4','week4','sep 20','sep20','9/20','9-20']},
+    {out:'Week 5', patterns:['week 5','week5','sep 27','sep27','9/27','9-27']},
+  ];
+  const lower = s.toLowerCase().replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ');
+  for(const {out,patterns} of checks){
+    if(patterns.some(p=>lower.includes(p))) return out;
+  }
+  return null;
+}
 function minsToTime(m){const h=Math.floor(m/60),min=m%60,ap=h>=12?'PM':'AM',h12=h>12?h-12:h===0?12:h;return`${h12}:${min.toString().padStart(2,'0')} ${ap}`;}
 function timeToMins(t){const[h,m]=t.split(':').map(Number);return h*60+m;}
 
@@ -377,12 +395,13 @@ async function loadData(){
         week:normalizeWeek(f['Week']||''),paid:isPaid,payingAtDoor,failedPayment,notes,submitted:f['Submitted At']||''};
     });
     const nameMap={};
+    const weekRank=w=>WEEK_ORDER.indexOf(w); // later week = higher rank
     raw.forEach(t=>{
       const k=t.name.toLowerCase().trim();
       if(!nameMap[k]) { nameMap[k]=t; return; }
       const e=nameMap[k];
-      // Prefer Week 3 entry over any other week
-      if(t.week==='Week 3' && e.week!=='Week 3') { nameMap[k]=t; return; }
+      // Prefer the most recent week entry
+      if(weekRank(t.week) > weekRank(e.week)) { nameMap[k]=t; return; }
       // Among same week, prefer paid
       if(t.week===e.week && t.paid && !e.paid) { nameMap[k]=t; }
     });
