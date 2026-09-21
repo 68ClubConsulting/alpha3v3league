@@ -82,7 +82,12 @@
   .badge.failed { background: #FEE2E2; color: var(--red); }
   .badge.reach { background: #FEF9C3; color: var(--yellow); }
   .badge.note { background: #EFF6FF; color: var(--boys); max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
+  .badge.withdrawn { background: #F3F4F6; color: #9CA3AF; }
   .empty-state { padding: 16px 12px; font-size: 13px; color: var(--text-muted); font-style: italic; }
+  .team-row.withdrawn-row { opacity: 0.45; border-left-color: #D1D5DB !important; background: #FAFAFA !important; }
+  .withdraw-btn { font-size: 11px; padding: 2px 8px; border-radius: 4px; border: 1px solid #D1D5DB; background: white; color: #9CA3AF; cursor: pointer; font-family: 'Inter', sans-serif; white-space: nowrap; }
+  .withdraw-btn:hover { border-color: var(--red); color: var(--red); }
+  .withdraw-btn.active { background: #FEE2E2; border-color: var(--red); color: var(--red); }
 
   /* SCHEDULER */
   .sched-panel { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 24px; margin-bottom: 20px; }
@@ -306,6 +311,16 @@ const AGE_ORDER = {'3rd Grade':1,'3rd grade':1,'3rd':1,'4th/5th Grade':2,'4th/5t
 
 let allTeams=[], allRaw=[], currentWeek='Week 2';
 let sitOuts=[], reqMatches=[], noMatches=[], diffTimes=[], sameCourts=[];
+let withdrawn = JSON.parse(localStorage.getItem('alpha_withdrawn')||'[]');
+function isWithdrawn(name){return withdrawn.includes(name.toLowerCase().trim());}
+function toggleWithdrawn(name){
+  const k=name.toLowerCase().trim();
+  if(isWithdrawn(name)){withdrawn=withdrawn.filter(x=>x!==k);}
+  else{withdrawn.push(k);}
+  try{localStorage.setItem('alpha_withdrawn',JSON.stringify(withdrawn));}catch(e){}
+  renderWeek(currentWeek);
+  buildSchedulerDropdowns();
+}
 
 function normalizeAge(a){
   if(!a) return 'Unknown';
@@ -427,11 +442,14 @@ function switchWeek(week,btn){
   renderWeek(week);
 }
 
-function getConfirmedForWeek(week){
+function getConfirmedForWeek(week, excludeWithdrawn=false){
   const out=[],seen=new Set();
   allTeams.forEach(t=>{
     const inForWeek=t.commitment==='Full Season'?t.paid:(t.week===week&&(t.paid||t.payingAtDoor||t.failedPayment));
-    if(inForWeek&&!seen.has(t.name.toLowerCase())){seen.add(t.name.toLowerCase());out.push(t);}
+    if(inForWeek&&!seen.has(t.name.toLowerCase())){
+      if(excludeWithdrawn && isWithdrawn(t.name)) return;
+      seen.add(t.name.toLowerCase());out.push(t);
+    }
   });
   return out;
 }
@@ -465,18 +483,35 @@ function renderWeek(week){
     });
   }
   const sort=arr=>[...arr].sort((a,b)=>divRank(a.division)-divRank(b.division)||ageRank(a.age)-ageRank(b.age)||a.name.localeCompare(b.name));
-  const boys=confirmed.filter(t=>t.division==='Boys'),girls=confirmed.filter(t=>t.division==='Girls');
+  const active=confirmed.filter(t=>!isWithdrawn(t.name));
+  const withdrawnTeams=confirmed.filter(t=>isWithdrawn(t.name));
+  const boys=active.filter(t=>t.division==='Boys'),girls=active.filter(t=>t.division==='Girls');
 
   let html=`<div class="stats-row">
-    <div class="stat-card"><div class="stat-label">Confirmed</div><div class="stat-num green">${confirmed.length}</div></div>
+    <div class="stat-card"><div class="stat-label">Playing</div><div class="stat-num green">${active.length}</div></div>
     <div class="stat-card"><div class="stat-label">Boys</div><div class="stat-num blue">${boys.length}</div></div>
     <div class="stat-card"><div class="stat-label">Girls</div><div class="stat-num pink">${girls.length}</div></div>
     <div class="stat-card"><div class="stat-label">Unpaid</div><div class="stat-num red">${unpaid.length}</div></div>
+    ${withdrawnTeams.length?`<div class="stat-card"><div class="stat-label">Withdrawn</div><div class="stat-num" style="color:#9CA3AF">${withdrawnTeams.length}</div></div>`:''}
     ${needsInfo.length?`<div class="stat-card"><div class="stat-label">Needs Info</div><div class="stat-num" style="color:#7C3AED">${needsInfo.length}</div></div>`:''}
     ${week!=='Week 1'?`<div class="stat-card"><div class="stat-label">Reach Out</div><div class="stat-num yellow">${reachOut.length}</div></div>`:''}
   </div>`;
 
-  html+=`<div class="section-block"><div class="section-heading">✓ Confirmed for ${week} <span class="count">${confirmed.length} teams</span></div>${renderGrouped(sort(confirmed))}</div>`;
+  html+=`<div class="section-block"><div class="section-heading">✓ Confirmed for ${week} <span class="count">${active.length} active · ${confirmed.length} total</span></div>${renderGrouped(sort(active))}</div>`;
+
+  if(withdrawnTeams.length){
+    html+=`<div class="section-block"><div class="section-heading" style="color:#9CA3AF">✗ Withdrawn — Will Not Play ${week} <span class="count">${withdrawnTeams.length}</span></div>`;
+    html+=withdrawnTeams.map(t=>{
+      const safeName=t.name.replace(/'/g,"\\'");
+      return `<div class="team-row withdrawn-row">
+        <div class="team-name" style="color:#9CA3AF">${t.name}</div>
+        <div class="team-contact">${t.contact||'—'}</div>
+        <div class="team-phone">${t.phone||'—'}</div>
+        <div class="team-notes"><span class="badge withdrawn">Withdrawn</span><button class="withdraw-btn active" style="margin-left:6px" onclick="toggleWithdrawn('${safeName}')">Undo</button></div>
+      </div>`;
+    }).join('');
+    html+=`</div>`;
+  }
 
   if(needsInfo.length){
     html+=`<div class="section-block"><div class="section-heading" style="color:#7C3AED">⚠ Paid — Missing Division/Grade Info <span class="count">${needsInfo.length}</span></div>`;
@@ -516,7 +551,9 @@ function renderGrouped(teams,isReach=false,isUnpaid=false){
           notes=cb+db+fb+nb;
           if(t.failedPayment)rowClass='failed';
         }
-        html+=`<div class="team-row ${rowClass}"><div class="team-name">${t.name}</div><div class="team-contact">${t.contact||'—'}</div><div class="team-phone">${t.phone||'—'}</div><div class="team-notes">${notes}</div></div>`;
+        const safeName=t.name.replace(/'/g,"\\'");
+        const wBtn=(!isReach&&!isUnpaid)?`<button class="withdraw-btn" onclick="toggleWithdrawn('${safeName}')" title="Mark as withdrawn">✕ Withdraw</button>`:'';
+        html+=`<div class="team-row ${rowClass}"><div class="team-name">${t.name}</div><div class="team-contact">${t.contact||'—'}</div><div class="team-phone">${t.phone||'—'}</div><div class="team-notes">${notes}${wBtn}</div></div>`;
       });
     });
     html+=`</div>`;
@@ -526,7 +563,7 @@ function renderGrouped(teams,isReach=false,isUnpaid=false){
 
 // ── SCHEDULER ──
 function buildSchedulerDropdowns(){
-  const names=getConfirmedForWeek(currentWeek).map(t=>t.name).sort();
+  const names=getConfirmedForWeek(currentWeek, true).map(t=>t.name).sort();
   ['sitOutSelect','reqA','reqB','noA','noB','diffA','diffB','scA','scB'].forEach(id=>{
     const el=document.getElementById(id);
     const first=el.options[0];
@@ -559,7 +596,7 @@ function removeSameCourt(k){sameCourts=sameCourts.filter(x=>x.key!==k);renderSam
 function renderSameCourts(){document.getElementById('sameCourtList').innerHTML=sameCourts.map(m=>`<div class="pair-tag same-court">${m.a} & ${m.b}<button onclick="removeSameCourt('${m.key.replace(/'/g,"\\'")}')">×</button></div>`).join('');}
 
 function generateSchedule(){
-  const confirmed=getConfirmedForWeek(currentWeek).filter(t=>!sitOuts.includes(t.name));
+  const confirmed=getConfirmedForWeek(currentWeek, true).filter(t=>!sitOuts.includes(t.name));
   const numCourts=parseInt(document.getElementById('numCourts').value)||4;
   const slotLen=parseInt(document.getElementById('slotLen').value)||15;
   const gamesPerTeam=parseInt(document.getElementById('gamesPerTeam').value)||3;
